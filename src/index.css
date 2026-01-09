@@ -1,0 +1,67 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans:
+    "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+
+  /* Apple System Colors - Blue */
+  --color-apple-blue: #007aff;
+  --color-apple-blue-light: #0088ff;
+  --color-apple-blue-primary: #0d6fff;
+
+  /* Apple System Colors - Gray (Light Mode) */
+  --color-gray-text: #4c4c4c;
+  --color-gray-text-dark: #2c2c2c;
+  --color-gray-text-secondary: #8e8e93;
+  --color-gray-text-secondary-hover: #6e6e73;
+  --color-gray-text-tertiary: #a0a0a0;
+  --color-gray-text-disabled: #c6c6c6;
+  --color-gray-text-light: #d4d4d4;
+  --color-gray-border: #d1d1d1;
+  --color-gray-bg-100: #f5f5f5;
+  --color-gray-bg-200: #f0f0f0;
+  --color-gray-bg-300: #e8e8e8;
+  --color-gray-bg-400: #e6e6e6;
+  --color-gray-bg-500: #e9e9ea;
+
+  /* Apple System Colors - Gray (Dark Mode) */
+  --color-dark-bg-100: #3a3a3a;
+  --color-dark-bg-200: #3a3a3c;
+  --color-dark-bg-300: #2c2c2e;
+  --color-dark-bg-400: #2a2a2a;
+  --color-dark-bg-500: #262626;
+  --color-dark-bg-600: #1e1e1e;
+
+  /* Apple System Colors - Semantic */
+  --color-apple-red: #ff383c;
+  --color-apple-green: #34c759;
+  --color-apple-green-dark: #32d74b;
+
+  /* Custom Shadows */
+  --shadow-glass: 0 2px 10px rgba(0, 0, 0, 0.08), 0 4px 20px rgba(0, 0, 0, 0.04);
+  --shadow-control-inset: inset 0 0 0 0.5px rgba(0, 0, 0, 0.1);
+}
+
+:root {
+  /* Materials - Light Mode */
+  --material-ultrathick: rgba(246, 246, 246, 0.84);
+}
+
+@layer utilities {
+  .material-ultrathick {
+    background-color: var(--material-ultrathick);
+    backdrop-filter: blur(25px);
+    -webkit-backdrop-filter: blur(25px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+
+  .scrollbar-none {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+
+  .scrollbar-none::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+}
