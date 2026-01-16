@@ -3,7 +3,7 @@ import * as React from "react";
 import { cn } from "@/utils";
 
 const buttonVariants = cva(
-  "inline-flex select-none items-center justify-center font-medium text-[13px] transition-all focus:outline-none focus:ring-2 focus:ring-blue-500/50 active:scale-[0.98] disabled:pointer-events-none disabled:opacity-50",
+  "focus-ring disabled-state inline-flex select-none items-center justify-center font-medium text-[13px] transition-all duration-100 active:scale-[0.98]",
   {
     variants: {
       variant: {

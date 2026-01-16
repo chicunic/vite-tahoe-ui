@@ -48,6 +48,51 @@
   --material-ultrathick: rgba(246, 246, 246, 0.84);
 }
 
+@layer components {
+  /* Focus ring styles */
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-blue-500/50;
+  }
+  .focus-visible-ring {
+    @apply focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500/50;
+  }
+  .focus-ring-inset {
+    @apply focus:outline-none focus:ring-[3px] focus:ring-blue-500/30;
+  }
+
+  /* Disabled state styles */
+  .disabled-state {
+    @apply disabled:pointer-events-none disabled:opacity-50;
+  }
+  .disabled-cursor {
+    @apply disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  /* Glass effect styles */
+  .glass-bg {
+    @apply bg-gray-bg-100/95 backdrop-blur-[25px] dark:bg-dark-bg-300/95;
+  }
+  .glass-border {
+    @apply border border-black/10 dark:border-white/10;
+  }
+  .glass-effect {
+    @apply bg-gray-bg-100/95 backdrop-blur-[25px] dark:bg-dark-bg-300/95 border border-black/10 dark:border-white/10;
+  }
+
+  /* Text colors */
+  .text-interactive {
+    @apply text-gray-text dark:text-gray-text-light;
+  }
+
+  /* Scrollbar thumb styles */
+  .scrollbar-thumb {
+    @apply bg-black/15 hover:bg-black/25 dark:bg-white/20 dark:hover:bg-white/30;
+  }
+  .scrollbar-thumb-active {
+    @apply bg-black/30 dark:bg-white/40;
+  }
+}
+
 @layer utilities {
   .material-ultrathick {
     background-color: var(--material-ultrathick);

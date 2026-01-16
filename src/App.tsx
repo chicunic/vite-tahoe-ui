@@ -133,7 +133,12 @@ function App() {
               <SidebarSection title="Library">
                 <SidebarItem
                   state={selectedSidebar === "all-components" ? "selected" : "default"}
-                  onClick={() => setSelectedSidebar("all-components")}
+                  onClick={() => {
+                    setSelectedSidebar("all-components");
+                    document
+                      .querySelector(".flex-1.space-y-12.overflow-auto")
+                      ?.scrollTo({ top: 0, behavior: "smooth" });
+                  }}
                   icon={<Package className="h-4 w-4" />}
                 >
                   All Components
@@ -150,6 +155,16 @@ function App() {
                   icon={<CircleDot className="h-4 w-4" />}
                 >
                   Buttons
+                </SidebarItem>
+                <SidebarItem
+                  state={selectedSidebar === "button-group" ? "selected" : "default"}
+                  onClick={() => {
+                    setSelectedSidebar("button-group");
+                    document.getElementById("section-button-group")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  icon={<CircleDot className="h-4 w-4" />}
+                >
+                  Button Group
                 </SidebarItem>
                 <SidebarItem
                   state={selectedSidebar === "toggles" ? "selected" : "default"}
@@ -230,6 +245,16 @@ function App() {
                   icon={<HelpCircle className="h-4 w-4" />}
                 >
                   Tooltips
+                </SidebarItem>
+                <SidebarItem
+                  state={selectedSidebar === "scrollbar" ? "selected" : "default"}
+                  onClick={() => {
+                    setSelectedSidebar("scrollbar");
+                    document.getElementById("section-scrollbar")?.scrollIntoView({ behavior: "smooth" });
+                  }}
+                  icon={<List className="h-4 w-4" />}
+                >
+                  Scrollbar
                 </SidebarItem>
               </SidebarSection>
 
