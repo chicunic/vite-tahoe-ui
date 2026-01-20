@@ -2,9 +2,6 @@ import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { cn } from "@/utils";
 
-/**
- * Scrollbar - Custom scrollbar component
- */
 const scrollbarVariants = cva("relative flex shrink-0", {
   variants: {
     orientation: {
@@ -18,13 +15,9 @@ const scrollbarVariants = cva("relative flex shrink-0", {
 });
 
 export interface ScrollbarProps extends VariantProps<typeof scrollbarVariants> {
-  /** Scroll position (0-1) */
   position?: number;
-  /** Visible ratio (0-1), determines thumb size */
   visibleRatio?: number;
-  /** Called when user drags the thumb */
   onPositionChange?: (position: number) => void;
-  /** Additional class name */
   className?: string;
 }
 

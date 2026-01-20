@@ -3,16 +3,11 @@ import { Search } from "lucide-react";
 import * as React from "react";
 import { cn } from "@/utils";
 
-/**
- * WindowSearch - Liquid Glass search field for window toolbars
- * Based on Figma: Window Search (177:10807)
- */
-
 const windowSearchVariants = cva("relative inline-flex items-center rounded-full", {
   variants: {
     size: {
-      xl: "h-9 gap-1.5 px-2.5", // 36px height
-      medium: "h-6 gap-1 px-1.5", // 24px height
+      xl: "h-9 gap-1.5 px-2.5",
+      medium: "h-6 gap-1 px-1.5",
     },
   },
   defaultVariants: {
@@ -23,7 +18,6 @@ const windowSearchVariants = cva("relative inline-flex items-center rounded-full
 export interface WindowSearchProps
   extends Omit<React.InputHTMLAttributes<HTMLInputElement>, "size">,
     VariantProps<typeof windowSearchVariants> {
-  /** Callback when value changes */
   onValueChange?: (value: string) => void;
 }
 
@@ -76,10 +70,7 @@ export const WindowSearch = React.forwardRef<HTMLInputElement, WindowSearchProps
 
         {/* Focus Ring */}
         {isFocused && !disabled && (
-          <>
-            <div className="absolute inset-0 rounded-full shadow-[0_0_0_3.5px_rgba(0,122,255,0.25)]" />
-            <div className="absolute inset-0 rounded-full shadow-[0_0_0_1px_rgba(0,122,255,0.15)]" />
-          </>
+          <div className="absolute inset-0 rounded-full shadow-[0_0_0_3.5px_rgba(0,122,255,0.25),0_0_0_1px_rgba(0,122,255,0.15)]" />
         )}
 
         {/* Search Icon */}

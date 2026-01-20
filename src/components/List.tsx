@@ -3,9 +3,6 @@ import * as React from "react";
 import { Typography } from "@/components/Typography";
 import { cn } from "@/utils";
 
-/**
- * SidebarItem Component
- */
 const sidebarItemVariants = cva(
   "group flex cursor-pointer select-none items-center gap-2 rounded-[5px] px-1.5 transition-colors",
   {
@@ -46,21 +43,17 @@ export const SidebarItem = React.forwardRef<HTMLDivElement, SidebarItemProps>(
 );
 SidebarItem.displayName = "SidebarItem";
 
-/**
- * SidebarSection Component (Header)
- */
-export const SidebarSection: React.FC<{ title: string; children: React.ReactNode }> = ({ title, children }) => (
-  <div className="mb-4">
-    <Typography variant="caption-1" className="mb-1 px-3 font-bold text-gray-500 uppercase tracking-tight">
-      {title}
-    </Typography>
-    <div className="space-y-px">{children}</div>
-  </div>
-);
+export function SidebarSection({ title, children }: { title: string; children: React.ReactNode }): React.ReactElement {
+  return (
+    <div className="mb-4">
+      <Typography variant="caption-1" className="mb-1 px-3 font-bold text-gray-500 uppercase tracking-tight">
+        {title}
+      </Typography>
+      <div className="space-y-px">{children}</div>
+    </div>
+  );
+}
 
-/**
- * ListItem Component (for Tables/Lists)
- */
 const listItemVariants = cva(
   "flex h-5 cursor-default select-none items-center border-transparent border-b px-4 text-[12px]",
   {

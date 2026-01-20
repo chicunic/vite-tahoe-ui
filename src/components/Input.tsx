@@ -23,7 +23,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(func
           {label}
         </label>
       )}
-      <div className="group relative">
+      <div className="relative">
         {icon && (
           <div className={cn("absolute top-1/2 z-10 -translate-y-1/2 text-gray-400", isSearch ? "left-3" : "left-2")}>
             {icon}

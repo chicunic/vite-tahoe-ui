@@ -77,15 +77,6 @@ export const Window = React.forwardRef<HTMLDivElement, WindowProps>(function Win
   { className, children, title, width, height, sidebar, toolbar, liquidGlass = false, ...props },
   ref,
 ) {
-  const sidebarContent = (
-    <>
-      <div className="relative flex h-10.5 shrink-0 items-center px-2.5" data-tauri-drag-region={true}>
-        <WindowControls />
-      </div>
-      <div className="relative flex flex-1 flex-col overflow-y-auto px-2 pb-2">{sidebar}</div>
-    </>
-  );
-
   const SidebarWrapper = liquidGlass ? LiquidGlassPanel : CssSidebar;
   const sidebarProps = liquidGlass ? { width: 224, borderRadius: 18 } : {};
 
@@ -105,7 +96,12 @@ export const Window = React.forwardRef<HTMLDivElement, WindowProps>(function Win
       {/* Sidebar */}
       {sidebar && (
         <div className="flex w-60 shrink-0 flex-col p-2">
-          <SidebarWrapper {...sidebarProps}>{sidebarContent}</SidebarWrapper>
+          <SidebarWrapper {...sidebarProps}>
+            <div className="relative flex h-10.5 shrink-0 items-center px-2.5" data-tauri-drag-region>
+              <WindowControls />
+            </div>
+            <div className="relative flex flex-1 flex-col overflow-y-auto px-2 pb-2">{sidebar}</div>
+          </SidebarWrapper>
         </div>
       )}
 
@@ -117,7 +113,7 @@ export const Window = React.forwardRef<HTMLDivElement, WindowProps>(function Win
             "flex h-13 shrink-0 items-center border-black/5 border-b px-4 dark:border-white/5",
             !sidebar && "pl-20",
           )}
-          data-tauri-drag-region={true}
+          data-tauri-drag-region
         >
           {!sidebar && (
             <div className="absolute left-4 flex gap-2">

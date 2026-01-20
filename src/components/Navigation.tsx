@@ -2,11 +2,6 @@ import { ChevronRight } from "lucide-react";
 import * as React from "react";
 import { cn } from "@/utils";
 
-/* =============================================================================
-   SEGMENTED CONTROL
-   Tahoe style segmented control with multiple selectable segments
-   ============================================================================= */
-
 interface SegmentProps {
   children: React.ReactNode;
   value: string;
@@ -19,7 +14,6 @@ interface SegmentedControlProps {
   defaultValue?: string;
   onValueChange?: (value: string) => void;
   className?: string;
-  /** Show glass-style background */
   glass?: boolean;
 }
 
@@ -38,7 +32,6 @@ function useSegmentedControl(): SegmentedControlContextValue {
   return context;
 }
 
-/** Individual segment button */
 const Segment = React.forwardRef<HTMLButtonElement, SegmentProps & React.ButtonHTMLAttributes<HTMLButtonElement>>(
   function Segment({ children, value, disabled, className, ...props }, ref) {
     const { value: selectedValue, onValueChange } = useSegmentedControl();
@@ -65,16 +58,13 @@ const Segment = React.forwardRef<HTMLButtonElement, SegmentProps & React.ButtonH
         onClick={() => !disabled && onValueChange(value)}
         {...props}
       >
-        {/* Selected background */}
         {isSelected && <div className="absolute inset-0 overflow-hidden rounded-md bg-apple-blue-primary" />}
-        {/* Label */}
         <span className="relative z-10 truncate">{children}</span>
       </button>
     );
   },
 );
 
-/** Separator between segments */
 function SegmentSeparator({ visible }: { visible: boolean }): React.ReactElement {
   return (
     <div
@@ -87,7 +77,6 @@ function SegmentSeparator({ visible }: { visible: boolean }): React.ReactElement
   );
 }
 
-/** Segmented Control container */
 const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedControlProps>(function SegmentedControl(
   { children, value: controlledValue, defaultValue, onValueChange, className, glass = false },
   ref,
@@ -105,7 +94,6 @@ const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedControlProps>
     [controlledValue, onValueChange],
   );
 
-  // Get segment values to determine separator visibility
   const segments = React.Children.toArray(children).filter(
     (child): child is React.ReactElement<SegmentProps> => React.isValidElement(child) && child.type === Segment,
   );
@@ -125,15 +113,10 @@ const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedControlProps>
           className,
         )}
       >
-        {/* Black overlay for depth */}
         <div className="pointer-events-none absolute inset-0 bg-black/5" />
-
-        {/* Segments with separators */}
         {segments.map((segment, index) => {
           const segmentValue = segment.props.value;
           const nextSegmentValue = segments[index + 1]?.props.value;
-
-          // Hide separator if current or next segment is selected
           const showSeparator = index < segments.length - 1 && value !== segmentValue && value !== nextSegmentValue;
 
           return (
@@ -147,11 +130,6 @@ const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedControlProps>
     </SegmentedControlContext.Provider>
   );
 });
-
-/* =============================================================================
-   DISCLOSURE BUTTON
-   Expand/collapse triangle button for hierarchical content
-   ============================================================================= */
 
 interface DisclosureButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   expanded?: boolean;
@@ -180,7 +158,6 @@ const DisclosureButton = React.forwardRef<HTMLButtonElement, DisclosureButtonPro
       onClick={() => onExpandedChange?.(!expanded)}
       {...props}
     >
-      {/* Disclosure triangle */}
       <ChevronRight
         aria-hidden="true"
         className={cn("h-2.5 w-2.5 transition-transform duration-150", expanded ? "rotate-90" : "rotate-0")}

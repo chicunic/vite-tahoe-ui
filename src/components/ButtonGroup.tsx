@@ -2,35 +2,25 @@ import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { cn } from "@/utils";
 
-/**
- * ButtonGroup - Liquid Glass segmented control
- * Based on Figma variants: Size (XL/Medium), Buttons (2-6), Selected state
- */
-
-const buttonGroupVariants = cva(
-  // Base: Liquid Glass container
-  "relative inline-flex items-center overflow-hidden rounded-full",
-  {
-    variants: {
-      size: {
-        xl: "h-9 gap-[3px] p-1", // 36px height, 4px padding
-        medium: "h-6 gap-[3px] p-0.5", // 24px height, 2px padding
-      },
-    },
-    defaultVariants: {
-      size: "xl",
+const buttonGroupVariants = cva("relative inline-flex items-center overflow-hidden rounded-full", {
+  variants: {
+    size: {
+      xl: "h-9 gap-[3px] p-1",
+      medium: "h-6 gap-[3px] p-0.5",
     },
   },
-);
+  defaultVariants: {
+    size: "xl",
+  },
+});
 
 const buttonItemVariants = cva(
-  // Base button item styles
   "inline-flex select-none items-center justify-center rounded-full transition-all focus:outline-none [&_svg]:shrink-0",
   {
     variants: {
       size: {
-        xl: "h-7 min-w-[30px] px-[5px] [&_svg]:h-4 [&_svg]:w-4", // min 30px, 28px height, icon 16px
-        medium: "h-5 min-w-9 px-1.5 [&_svg]:h-3.5 [&_svg]:w-3.5", // min 36px, 20px height, icon 14px
+        xl: "h-7 min-w-[30px] px-[5px] [&_svg]:h-4 [&_svg]:w-4",
+        medium: "h-5 min-w-9 px-1.5 [&_svg]:h-3.5 [&_svg]:w-3.5",
       },
       selected: {
         true: "bg-gray-bg-400 dark:bg-white/20",
@@ -44,36 +34,27 @@ const buttonItemVariants = cva(
   },
 );
 
-// Separator component
-const Separator: React.FC<{ size: "xl" | "medium" }> = ({ size }) => (
-  <div className={cn("flex items-center justify-center", size === "xl" ? "h-5 w-0.75" : "h-4 w-0.75")}>
-    <div className="h-full w-px bg-black/10 dark:bg-white/15" />
-  </div>
-);
+function Separator({ size }: { size: "xl" | "medium" }): React.ReactElement {
+  return (
+    <div className={cn("flex items-center justify-center", size === "xl" ? "h-5 w-0.75" : "h-4 w-0.75")}>
+      <div className="h-full w-px bg-black/10 dark:bg-white/15" />
+    </div>
+  );
+}
 
 export interface ButtonGroupItem {
-  /** Icon or content to display */
   icon: React.ReactNode;
-  /** Value identifier for the item */
   value: string;
-  /** Accessible label */
   "aria-label"?: string;
-  /** Disabled state */
   disabled?: boolean;
 }
 
 export interface ButtonGroupProps extends VariantProps<typeof buttonGroupVariants> {
-  /** Array of button items (2-6 items) */
   items: ButtonGroupItem[];
-  /** Currently selected value(s) - string for single, array for multi-select */
   value?: string | string[];
-  /** Selection mode */
   selectionMode?: "single" | "multiple" | "none";
-  /** Callback when selection changes */
   onValueChange?: (value: string | string[]) => void;
-  /** Additional class name */
   className?: string;
-  /** Show separators between buttons */
   showSeparators?: boolean;
 }
 
@@ -110,10 +91,7 @@ export const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(
         role="toolbar"
         aria-label="Button group"
       >
-        {/* Liquid Glass Background */}
         <div className="absolute inset-0 rounded-full bg-white/70 dark:bg-white/15" />
-
-        {/* Button Items */}
         <div className="relative z-10 flex items-center">
           {items.map((item, index) => {
             const isSelected = selectedValues.has(item.value);
