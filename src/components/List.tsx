@@ -31,17 +31,17 @@ export interface SidebarItemProps
   icon?: React.ReactNode;
 }
 
-export const SidebarItem = React.forwardRef<HTMLDivElement, SidebarItemProps>(
-  ({ className, state, size, icon, children, ...props }, ref) => {
-    return (
-      <div ref={ref} className={cn(sidebarItemVariants({ state, size, className }))} {...props}>
-        {icon && <div className={cn("shrink-0", state === "selected" ? "text-white" : "text-blue-500")}>{icon}</div>}
-        <span className="flex-1 truncate">{children}</span>
-      </div>
-    );
-  },
-);
-SidebarItem.displayName = "SidebarItem";
+export const SidebarItem = React.forwardRef<HTMLDivElement, SidebarItemProps>(function SidebarItem(
+  { className, state, size, icon, children, ...props },
+  ref,
+) {
+  return (
+    <div ref={ref} className={cn(sidebarItemVariants({ state, size, className }))} {...props}>
+      {icon && <div className={cn("shrink-0", state === "selected" ? "text-white" : "text-blue-500")}>{icon}</div>}
+      <span className="flex-1 truncate">{children}</span>
+    </div>
+  );
+});
 
 export function SidebarSection({ title, children }: { title: string; children: React.ReactNode }): React.ReactElement {
   return (
@@ -75,18 +75,20 @@ export interface ListItemProps extends React.HTMLAttributes<HTMLDivElement>, Var
   level?: number;
 }
 
-export const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(
-  ({ className, variant, level = 0, children, ...props }, ref) => {
-    return (
-      <div
-        ref={ref}
-        className={cn(listItemVariants({ variant, className }))}
-        style={{ paddingLeft: `${16 + level * 16}px` }}
-        {...props}
-      >
-        {children}
-      </div>
-    );
-  },
-);
-ListItem.displayName = "ListItem";
+const LEVEL_PADDING: Record<number, string> = {
+  0: "pl-4",
+  1: "pl-8",
+  2: "pl-12",
+  3: "pl-16",
+};
+
+export const ListItem = React.forwardRef<HTMLDivElement, ListItemProps>(function ListItem(
+  { className, variant, level = 0, children, ...props },
+  ref,
+) {
+  return (
+    <div ref={ref} className={cn(listItemVariants({ variant }), LEVEL_PADDING[level] ?? "pl-4", className)} {...props}>
+      {children}
+    </div>
+  );
+});

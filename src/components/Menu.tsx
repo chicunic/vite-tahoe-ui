@@ -2,48 +2,27 @@ import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { Check, ChevronRight } from "lucide-react";
 import * as React from "react";
+import { DROPDOWN_ANIMATION } from "@/styles";
 import { cn } from "@/utils";
 
-/* =============================================================================
-   SHARED STYLES
-   ============================================================================= */
-
-// Animation classes for dropdown/popover (can't use @apply with data-* prefixes)
-const DROPDOWN_ANIMATION = [
-  "data-state-closed:animate-out data-state-open:animate-in",
-  "data-state-closed:fade-out-0 data-state-open:fade-in-0",
-  "data-state-closed:zoom-out-95 data-state-open:zoom-in-95",
-  "data-side-bottom:slide-in-from-top-2 data-side-left:slide-in-from-right-2",
-  "data-side-right:slide-in-from-left-2 data-side-top:slide-in-from-bottom-2",
-].join(" ");
-
-const MENU_CONTENT_CLASSES = [
-  "z-50 min-w-45 overflow-hidden px-3 py-1.25",
-  "rounded-[13px]",
+const MENU_CONTENT_CLASSES = cn(
+  "z-50 min-w-45 overflow-hidden rounded-[13px] px-3 py-1.25",
   "bg-linear-to-r from-gray-bg-300 to-gray-bg-100",
   "dark:bg-linear-to-r dark:from-dark-bg-400 dark:to-dark-bg-100",
   "shadow-[0_0_2px_rgba(0,0,0,0.1),0_0_25px_rgba(0,0,0,0.16)]",
   DROPDOWN_ANIMATION,
-].join(" ");
+);
 
-/* =============================================================================
-   MENU ITEM
-   Tahoe style menu item with icon, label, and keyboard shortcut
-   ============================================================================= */
-
-const MENU_ITEM_BASE_CLASSES = [
+const MENU_ITEM_BASE_CLASSES = cn(
   "relative flex h-6 items-center gap-1.5 pl-3",
-  "cursor-default select-none font-medium text-[13px]",
-  "rounded-lg outline-none",
+  "cursor-default select-none rounded-lg font-medium text-[13px] outline-none",
   "transition-colors duration-75",
-].join(" ");
+);
 
+/** Menu Item - Tahoe style with icon, label, and keyboard shortcut */
 interface MenuItemProps extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Item> {
-  /** Leading icon/symbol */
   icon?: React.ReactNode;
-  /** Keyboard shortcut display */
   shortcut?: string;
-  /** Show checkmark for selected items */
   checked?: boolean;
 }
 
@@ -54,31 +33,22 @@ const MenuItem = React.forwardRef<React.ComponentRef<typeof DropdownMenuPrimitiv
         ref={ref}
         className={cn(
           MENU_ITEM_BASE_CLASSES,
-          // Extend background to edges with negative margin
           "-mx-1.75 px-1.75",
-          // Idle state
           "text-interactive",
-          // Hover state - blue background with white text
           "focus:bg-apple-blue-light focus:text-white",
-          // Disabled state
           "data-disabled:pointer-events-none data-disabled:text-gray-text-disabled",
           className,
         )}
         {...props}
       >
-        {/* Checkmark / Icon area */}
         <span className="flex h-full w-3 shrink-0 items-center justify-center">
           {checked ? (
             <Check className="h-3 w-3" strokeWidth={2.5} />
-          ) : icon ? (
-            <span className="text-[13px]">{icon}</span>
-          ) : null}
+          ) : (
+            icon && <span className="text-[13px]">{icon}</span>
+          )}
         </span>
-
-        {/* Label */}
         <span className="flex-1 truncate">{children}</span>
-
-        {/* Keyboard shortcut */}
         {shortcut && (
           <span className="ml-4 text-[13px] text-gray-text-disabled group-focus:text-white/80">{shortcut}</span>
         )}
@@ -87,11 +57,7 @@ const MenuItem = React.forwardRef<React.ComponentRef<typeof DropdownMenuPrimitiv
   },
 );
 
-/* =============================================================================
-   MENU SEPARATOR
-   Horizontal divider between menu items
-   ============================================================================= */
-
+/** Menu Separator */
 const MenuSeparator = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.Separator>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
@@ -103,11 +69,7 @@ const MenuSeparator = React.forwardRef<
   );
 });
 
-/* =============================================================================
-   MENU HEADER
-   Section header within a menu
-   ============================================================================= */
-
+/** Menu Header - Section header within a menu */
 const MenuHeader = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.Label>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Label>
@@ -117,8 +79,7 @@ const MenuHeader = React.forwardRef<
       ref={ref}
       className={cn(
         "flex h-5.25 items-center px-1.75",
-        "font-semibold text-[11px] text-gray-text-secondary dark:text-gray-text-secondary",
-        "uppercase tracking-wide",
+        "font-semibold text-[11px] text-gray-text-secondary uppercase tracking-wide",
         className,
       )}
       {...props}
@@ -126,11 +87,7 @@ const MenuHeader = React.forwardRef<
   );
 });
 
-/* =============================================================================
-   MENU CONTENT
-   The dropdown menu container with glass effect
-   ============================================================================= */
-
+/** Menu Content - Dropdown container with glass effect */
 const MenuContent = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.Content>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Content>
@@ -147,11 +104,7 @@ const MenuContent = React.forwardRef<
   );
 });
 
-/* =============================================================================
-   SUBMENU
-   Nested menu with arrow indicator
-   ============================================================================= */
-
+/** SubMenu Trigger */
 interface SubMenuTriggerProps extends React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubTrigger> {
   icon?: React.ReactNode;
 }
@@ -165,7 +118,6 @@ const SubMenuTrigger = React.forwardRef<
       ref={ref}
       className={cn(
         MENU_ITEM_BASE_CLASSES,
-        // Extend background to edges with negative margin
         "-mx-1.75 px-1.75",
         "text-interactive",
         "focus:bg-apple-blue-light focus:text-white",
@@ -183,6 +135,7 @@ const SubMenuTrigger = React.forwardRef<
   );
 });
 
+/** SubMenu Content */
 const SubMenuContent = React.forwardRef<
   React.ComponentRef<typeof DropdownMenuPrimitive.SubContent>,
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.SubContent>
@@ -194,17 +147,12 @@ const SubMenuContent = React.forwardRef<
   );
 });
 
-/* =============================================================================
-   POPOVER
-   Tahoe style popover with arrow pointing to anchor
-   ============================================================================= */
-
+/** Popover */
 const Popover = PopoverPrimitive.Root;
 const PopoverTrigger = PopoverPrimitive.Trigger;
 const PopoverAnchor = PopoverPrimitive.Anchor;
 
 interface PopoverContentProps extends React.ComponentPropsWithoutRef<typeof PopoverPrimitive.Content> {
-  /** Show arrow pointing to trigger */
   showArrow?: boolean;
 }
 
@@ -217,12 +165,9 @@ const PopoverContent = React.forwardRef<React.ComponentRef<typeof PopoverPrimiti
           align={align}
           sideOffset={sideOffset}
           className={cn(
-            "z-50 w-50 p-4",
-            "rounded-xl",
-            // Glass effect background
+            "z-50 w-50 rounded-xl p-4",
             "glass-effect",
             "shadow-[0_10px_38px_-10px_rgba(22,23,24,0.35),0_10px_20px_-15px_rgba(22,23,24,0.2)]",
-            // Animation
             DROPDOWN_ANIMATION,
             className,
           )}
@@ -238,10 +183,7 @@ const PopoverContent = React.forwardRef<React.ComponentRef<typeof PopoverPrimiti
   },
 );
 
-/* =============================================================================
-   DROPDOWN MENU (Full Re-export with Tahoe styling)
-   ============================================================================= */
-
+/** Dropdown Menu primitives */
 const DropdownMenu = DropdownMenuPrimitive.Root;
 const DropdownMenuTrigger = DropdownMenuPrimitive.Trigger;
 const DropdownMenuGroup = DropdownMenuPrimitive.Group;
@@ -249,7 +191,6 @@ const DropdownMenuSub = DropdownMenuPrimitive.Sub;
 const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
 
 export {
-  // Dropdown Menu
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuGroup,
@@ -261,7 +202,6 @@ export {
   MenuHeader,
   SubMenuTrigger,
   SubMenuContent,
-  // Popover
   Popover,
   PopoverTrigger,
   PopoverAnchor,

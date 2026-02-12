@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cn } from "@/utils";
 
-export interface TextFieldProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface TextFieldProps extends React.ComponentPropsWithRef<"input"> {
   label?: string;
   error?: string;
   icon?: React.ReactNode;
@@ -49,7 +49,7 @@ export const TextField = React.forwardRef<HTMLInputElement, TextFieldProps>(func
   );
 });
 
-export interface SwitchProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface SwitchProps extends React.ComponentPropsWithRef<"input"> {
   checked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
 }
@@ -80,7 +80,7 @@ export const Switch = React.forwardRef<HTMLInputElement, SwitchProps>(function S
   );
 });
 
-export interface CheckboxProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface CheckboxProps extends React.ComponentPropsWithRef<"input"> {
   label?: string;
 }
 
@@ -109,7 +109,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(functi
   );
 });
 
-export interface RadioProps extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface RadioProps extends React.ComponentPropsWithRef<"input"> {
   label?: string;
 }
 

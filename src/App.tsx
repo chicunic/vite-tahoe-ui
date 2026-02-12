@@ -63,6 +63,27 @@ import {
   WindowSearch,
 } from "@/components";
 
+interface SidebarNavItem {
+  id: string;
+  label: string;
+  icon: React.ReactElement;
+  sectionId?: string;
+}
+
+const SIDEBAR_COMPONENTS: SidebarNavItem[] = [
+  { id: "buttons", label: "Buttons", icon: <CircleDot className="h-4 w-4" /> },
+  { id: "button-group", label: "Button Group", icon: <CircleDot className="h-4 w-4" /> },
+  { id: "toggles", label: "Toggles", icon: <Sparkles className="h-4 w-4" /> },
+  { id: "text-fields", label: "Text Fields", icon: <Keyboard className="h-4 w-4" /> },
+  { id: "segmented-controls", label: "Segmented Controls", icon: <List className="h-4 w-4" /> },
+  { id: "pop-up-pull-down", label: "Pop-up/Pull-down", icon: <List className="h-4 w-4" /> },
+  { id: "sidebars", label: "Sidebars", icon: <AppWindow className="h-4 w-4" /> },
+  { id: "lists-tables", label: "Lists and Tables", icon: <List className="h-4 w-4" /> },
+  { id: "alerts", label: "Alerts", icon: <Info className="h-4 w-4" /> },
+  { id: "tooltips", label: "Tooltips", icon: <HelpCircle className="h-4 w-4" /> },
+  { id: "scrollbar", label: "Scrollbar", icon: <List className="h-4 w-4" /> },
+];
+
 function App() {
   const [selectedSidebar, setSelectedSidebar] = React.useState("all-components");
   const [showAlert, setShowAlert] = React.useState(false);
@@ -77,47 +98,70 @@ function App() {
   const [scrollPos2, setScrollPos2] = React.useState(0.6);
   const [scrollPosH, setScrollPosH] = React.useState(0.3);
 
+  function handleSidebarClick(id: string): void {
+    setSelectedSidebar(id);
+    if (id === "all-components") {
+      document.querySelector(".flex-1.space-y-12.overflow-auto")?.scrollTo({ top: 0, behavior: "smooth" });
+    } else {
+      document.getElementById(`section-${id}`)?.scrollIntoView({ behavior: "smooth" });
+    }
+  }
+
   return (
     <TooltipProvider>
-      <div
-        className="flex min-h-screen items-center justify-center p-10"
-        style={{
-          background: "linear-gradient(135deg, #1a1a2e 0%, #16213e 25%, #0f3460 50%, #533483 75%, #e94560 100%)",
-        }}
-      >
-        <div className="w-300 shrink-0">
+      <div className="flex h-dvh flex-col overflow-hidden bg-linear-to-br from-[#1a1a2e] via-[#0f3460] to-[#e94560] p-4 md:p-8 lg:p-10">
+        <div className="mx-auto flex min-h-0 w-full max-w-7xl flex-1 flex-col overflow-hidden">
           <Window
             title="Tahoe UI Component Library"
-            width="100%"
-            height="100%"
-            className="max-h-212.5"
+            className="flex-1"
             liquidGlass
             toolbar={
               <div className="flex w-full items-center justify-between gap-4">
                 {/* Back/Forward - Button Group */}
-                <ButtonGroup
-                  size="xl"
-                  selectionMode="none"
-                  items={[
-                    { icon: <ChevronLeft className="h-5! w-5! opacity-60" />, value: "back", "aria-label": "Go back" },
-                    {
-                      icon: <ChevronRight className="h-5! w-5! opacity-60" />,
-                      value: "forward",
-                      "aria-label": "Go forward",
-                    },
-                  ]}
-                  onValueChange={(val) => console.log("Navigate:", val)}
-                />
+                <div className="hidden sm:block">
+                  <ButtonGroup
+                    size="xl"
+                    selectionMode="none"
+                    items={[
+                      {
+                        icon: <ChevronLeft className="h-5! w-5! opacity-60" />,
+                        value: "back",
+                        "aria-label": "Go back",
+                      },
+                      {
+                        icon: <ChevronRight className="h-5! w-5! opacity-60" />,
+                        value: "forward",
+                        "aria-label": "Go forward",
+                      },
+                    ]}
+                    onValueChange={(val) => console.log("Navigate:", val)}
+                  />
+                </div>
 
-                <WindowSearch size="xl" placeholder="Search documentation..." className="max-w-md flex-1" />
+                <WindowSearch size="xl" placeholder="Search..." className="max-w-md flex-1" />
 
                 {/* Action Icons - Button Group */}
                 <ButtonGroup
                   size="xl"
                   selectionMode="none"
+                  className="sm:hidden"
                   items={[
                     { icon: <Share className="opacity-70" />, value: "share", "aria-label": "Share" },
-                    { icon: <MessageCircle className="opacity-70" />, value: "message", "aria-label": "Message" },
+                    { icon: <Plus className="opacity-70" />, value: "add", "aria-label": "Add" },
+                  ]}
+                  onValueChange={(val) => console.log("Action:", val)}
+                />
+                <ButtonGroup
+                  size="xl"
+                  selectionMode="none"
+                  className="hidden sm:inline-flex"
+                  items={[
+                    { icon: <Share className="opacity-70" />, value: "share", "aria-label": "Share" },
+                    {
+                      icon: <MessageCircle className="opacity-70" />,
+                      value: "message",
+                      "aria-label": "Message",
+                    },
                     { icon: <Plus className="opacity-70" />, value: "add", "aria-label": "Add" },
                   ]}
                   onValueChange={(val) => console.log("Action:", val)}
@@ -129,12 +173,7 @@ function App() {
                 <SidebarSection title="Library">
                   <SidebarItem
                     state={selectedSidebar === "all-components" ? "selected" : "default"}
-                    onClick={() => {
-                      setSelectedSidebar("all-components");
-                      document
-                        .querySelector(".flex-1.space-y-12.overflow-auto")
-                        ?.scrollTo({ top: 0, behavior: "smooth" });
-                    }}
+                    onClick={() => handleSidebarClick("all-components")}
                     icon={<Package className="h-4 w-4" />}
                   >
                     All Components
@@ -142,116 +181,16 @@ function App() {
                 </SidebarSection>
 
                 <SidebarSection title="Components">
-                  <SidebarItem
-                    state={selectedSidebar === "buttons" ? "selected" : "default"}
-                    onClick={() => {
-                      setSelectedSidebar("buttons");
-                      document.getElementById("section-buttons")?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    icon={<CircleDot className="h-4 w-4" />}
-                  >
-                    Buttons
-                  </SidebarItem>
-                  <SidebarItem
-                    state={selectedSidebar === "button-group" ? "selected" : "default"}
-                    onClick={() => {
-                      setSelectedSidebar("button-group");
-                      document.getElementById("section-button-group")?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    icon={<CircleDot className="h-4 w-4" />}
-                  >
-                    Button Group
-                  </SidebarItem>
-                  <SidebarItem
-                    state={selectedSidebar === "toggles" ? "selected" : "default"}
-                    onClick={() => {
-                      setSelectedSidebar("toggles");
-                      document.getElementById("section-toggles")?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    icon={<Sparkles className="h-4 w-4" />}
-                  >
-                    Toggles
-                  </SidebarItem>
-                  <SidebarItem
-                    state={selectedSidebar === "text-fields" ? "selected" : "default"}
-                    onClick={() => {
-                      setSelectedSidebar("text-fields");
-                      document.getElementById("section-text-fields")?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    icon={<Keyboard className="h-4 w-4" />}
-                  >
-                    Text Fields
-                  </SidebarItem>
-                  <SidebarItem
-                    state={selectedSidebar === "segmented-controls" ? "selected" : "default"}
-                    onClick={() => {
-                      setSelectedSidebar("segmented-controls");
-                      document.getElementById("section-segmented-controls")?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    icon={<List className="h-4 w-4" />}
-                  >
-                    Segmented Controls
-                  </SidebarItem>
-                  <SidebarItem
-                    state={selectedSidebar === "pop-up-pull-down" ? "selected" : "default"}
-                    onClick={() => {
-                      setSelectedSidebar("pop-up-pull-down");
-                      document.getElementById("section-pop-up-pull-down")?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    icon={<List className="h-4 w-4" />}
-                  >
-                    Pop-up/Pull-down
-                  </SidebarItem>
-                  <SidebarItem
-                    state={selectedSidebar === "sidebars" ? "selected" : "default"}
-                    onClick={() => {
-                      setSelectedSidebar("sidebars");
-                      document.getElementById("section-sidebars")?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    icon={<AppWindow className="h-4 w-4" />}
-                  >
-                    Sidebars
-                  </SidebarItem>
-                  <SidebarItem
-                    state={selectedSidebar === "lists-tables" ? "selected" : "default"}
-                    onClick={() => {
-                      setSelectedSidebar("lists-tables");
-                      document.getElementById("section-lists-tables")?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    icon={<List className="h-4 w-4" />}
-                  >
-                    Lists and Tables
-                  </SidebarItem>
-                  <SidebarItem
-                    state={selectedSidebar === "alerts" ? "selected" : "default"}
-                    onClick={() => {
-                      setSelectedSidebar("alerts");
-                      document.getElementById("section-alerts")?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    icon={<Info className="h-4 w-4" />}
-                  >
-                    Alerts
-                  </SidebarItem>
-                  <SidebarItem
-                    state={selectedSidebar === "tooltips" ? "selected" : "default"}
-                    onClick={() => {
-                      setSelectedSidebar("tooltips");
-                      document.getElementById("section-tooltips")?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    icon={<HelpCircle className="h-4 w-4" />}
-                  >
-                    Tooltips
-                  </SidebarItem>
-                  <SidebarItem
-                    state={selectedSidebar === "scrollbar" ? "selected" : "default"}
-                    onClick={() => {
-                      setSelectedSidebar("scrollbar");
-                      document.getElementById("section-scrollbar")?.scrollIntoView({ behavior: "smooth" });
-                    }}
-                    icon={<List className="h-4 w-4" />}
-                  >
-                    Scrollbar
-                  </SidebarItem>
+                  {SIDEBAR_COMPONENTS.map((item) => (
+                    <SidebarItem
+                      key={item.id}
+                      state={selectedSidebar === item.id ? "selected" : "default"}
+                      onClick={() => handleSidebarClick(item.id)}
+                      icon={item.icon}
+                    >
+                      {item.label}
+                    </SidebarItem>
+                  ))}
                 </SidebarSection>
 
                 <div className="mt-auto p-4 opacity-40">
@@ -260,8 +199,8 @@ function App() {
               </div>
             }
           >
-            <div className="flex h-full min-w-160 flex-col bg-white dark:bg-[#1E1E1E]">
-              <div className="flex-1 space-y-12 overflow-auto p-6 pb-24 lg:p-10">
+            <div className="flex h-full min-h-0 flex-col bg-white dark:bg-[#1E1E1E]">
+              <div className="min-h-0 flex-1 space-y-12 overflow-auto overscroll-contain p-6 pb-24 lg:p-10">
                 {/* Header */}
                 <header className="space-y-2 border-black/5 border-b pb-8">
                   <Typography variant="large-title" emphasis>
@@ -278,7 +217,7 @@ function App() {
                   <Typography variant="title-1" emphasis>
                     Buttons
                   </Typography>
-                  <div className="grid min-w-140 grid-cols-4 gap-8 rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
+                  <div className="grid grid-cols-1 gap-8 rounded-xl bg-black/1.5 p-6 sm:grid-cols-2 lg:grid-cols-4 dark:bg-white/1.5">
                     <div className="space-y-3">
                       <Typography variant="headline">Primary</Typography>
                       <Button className="w-full">Default Action</Button>
@@ -334,7 +273,7 @@ function App() {
                   <Typography variant="title-1" emphasis>
                     Button Group
                   </Typography>
-                  <div className="min-w-140 space-y-6 rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
+                  <div className="space-y-6 rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
                     <div className="space-y-3">
                       <Typography variant="headline">Size: XL (36px)</Typography>
                       <div className="flex flex-wrap items-center gap-6">
@@ -367,7 +306,11 @@ function App() {
                           items={[
                             { icon: <Bold className="h-5 w-5" />, value: "bold", "aria-label": "Bold" },
                             { icon: <Italic className="h-5 w-5" />, value: "italic", "aria-label": "Italic" },
-                            { icon: <Underline className="h-5 w-5" />, value: "underline", "aria-label": "Underline" },
+                            {
+                              icon: <Underline className="h-5 w-5" />,
+                              value: "underline",
+                              "aria-label": "Underline",
+                            },
                           ]}
                           value={textStyle}
                           onValueChange={(val) => setTextStyle(val as string[])}
@@ -406,7 +349,11 @@ function App() {
                           items={[
                             { icon: <Bold className="h-4 w-4" />, value: "bold", "aria-label": "Bold" },
                             { icon: <Italic className="h-4 w-4" />, value: "italic", "aria-label": "Italic" },
-                            { icon: <Underline className="h-4 w-4" />, value: "underline", "aria-label": "Underline" },
+                            {
+                              icon: <Underline className="h-4 w-4" />,
+                              value: "underline",
+                              "aria-label": "Underline",
+                            },
                           ]}
                           value={["bold", "italic"]}
                           onValueChange={(val) => console.log(val)}
@@ -421,7 +368,7 @@ function App() {
                   <Typography variant="title-1" emphasis>
                     Toggles
                   </Typography>
-                  <div className="min-w-140 space-y-8 rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
+                  <div className="space-y-8 rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
                     <div className="space-y-4">
                       <Typography variant="headline">Switch</Typography>
                       <div className="space-y-4">
@@ -478,7 +425,7 @@ function App() {
                   <Typography variant="title-1" emphasis>
                     Text Fields
                   </Typography>
-                  <div className="min-w-140 space-y-4 rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
+                  <div className="space-y-4 rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
                     <TextField label="Standard Input" placeholder="Type something..." />
                     <TextField
                       variant="search"
@@ -496,7 +443,7 @@ function App() {
                   <Typography variant="title-1" emphasis>
                     Segmented Controls
                   </Typography>
-                  <div className="min-w-140 space-y-6 rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
+                  <div className="space-y-6 rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
                     <div className="space-y-3">
                       <Typography variant="headline">Default</Typography>
                       <div className="flex flex-wrap gap-4">
@@ -543,7 +490,7 @@ function App() {
                   <Typography variant="title-1" emphasis>
                     Pop-up/Pull-down
                   </Typography>
-                  <div className="min-w-140 space-y-6 rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
+                  <div className="space-y-6 rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
                     <div className="space-y-3">
                       <Typography variant="headline">Pop-Up Button</Typography>
                       <DropdownMenu>
@@ -639,7 +586,7 @@ function App() {
                   <Typography variant="title-1" emphasis>
                     Sidebars
                   </Typography>
-                  <div className="min-w-140 rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
+                  <div className="rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
                     <div className="max-w-56 space-y-4">
                       <SidebarSection title="Favorites">
                         <SidebarItem icon={<Folder className="h-4 w-4" />}>Documents</SidebarItem>
@@ -664,13 +611,13 @@ function App() {
                   </Typography>
                   <div className="overflow-hidden rounded-2xl bg-white dark:bg-black/20">
                     <div className="flex h-8 items-center border-black/5 border-b bg-gray-50/50 px-4 dark:bg-white/5">
-                      <Typography variant="caption-1" className="w-1/2 font-bold text-gray-500">
+                      <Typography variant="caption-1" className="flex-1 font-bold text-gray-500">
                         Name
                       </Typography>
-                      <Typography variant="caption-1" className="w-1/4 font-bold text-gray-500">
+                      <Typography variant="caption-1" className="hidden w-1/4 font-bold text-gray-500 sm:block">
                         Status
                       </Typography>
-                      <Typography variant="caption-1" className="w-1/4 font-bold text-gray-500">
+                      <Typography variant="caption-1" className="hidden w-1/4 font-bold text-gray-500 sm:block">
                         Priority
                       </Typography>
                     </div>
@@ -680,44 +627,48 @@ function App() {
                         className="flex cursor-pointer"
                         onClick={() => setSelectedListItem("buttons")}
                       >
-                        <span className="flex w-1/2 items-center gap-2">
-                          <Folder className="h-4 w-4 text-blue-500" /> Buttons
+                        <span className="flex flex-1 items-center gap-2 truncate">
+                          <Folder className="h-4 w-4 shrink-0 text-blue-500" /> Buttons
                         </span>
-                        <span className="w-1/4 text-green-600 dark:text-green-400">Stable</span>
-                        <span className="w-1/4 opacity-70">High</span>
+                        <span className="hidden w-1/4 truncate text-green-600 sm:block dark:text-green-400">
+                          Stable
+                        </span>
+                        <span className="hidden w-1/4 truncate opacity-70 sm:block">High</span>
                       </ListItem>
                       <ListItem
                         variant={selectedListItem === "overlays" ? "selected" : "default"}
                         className="flex cursor-pointer"
                         onClick={() => setSelectedListItem("overlays")}
                       >
-                        <span className="flex w-1/2 items-center gap-2">
-                          <Folder className="h-4 w-4 text-blue-500" /> Overlays
+                        <span className="flex flex-1 items-center gap-2 truncate">
+                          <Folder className="h-4 w-4 shrink-0 text-blue-500" /> Overlays
                         </span>
-                        <span className="w-1/4">In Review</span>
-                        <span className="w-1/4">High</span>
+                        <span className="hidden w-1/4 truncate sm:block">In Review</span>
+                        <span className="hidden w-1/4 truncate sm:block">High</span>
                       </ListItem>
                       <ListItem
                         variant={selectedListItem === "tooltip" ? "selected" : "zebra"}
                         className="flex cursor-pointer"
                         onClick={() => setSelectedListItem("tooltip")}
                       >
-                        <span className="ml-4 flex w-1/2 items-center gap-2">
-                          <FileText className="h-4 w-4 text-gray-400" /> Tooltip.tsx
+                        <span className="ml-4 flex flex-1 items-center gap-2 truncate">
+                          <FileText className="h-4 w-4 shrink-0 text-gray-400" /> Tooltip.tsx
                         </span>
-                        <span className="w-1/4 text-green-600 dark:text-green-400">Stable</span>
-                        <span className="w-1/4 opacity-70">Medium</span>
+                        <span className="hidden w-1/4 truncate text-green-600 sm:block dark:text-green-400">
+                          Stable
+                        </span>
+                        <span className="hidden w-1/4 truncate opacity-70 sm:block">Medium</span>
                       </ListItem>
                       <ListItem
                         variant={selectedListItem === "alert" ? "selected" : "default"}
                         className="flex cursor-pointer"
                         onClick={() => setSelectedListItem("alert")}
                       >
-                        <span className="ml-4 flex w-1/2 items-center gap-2">
-                          <FileText className="h-4 w-4 text-gray-400" /> Alert.tsx
+                        <span className="ml-4 flex flex-1 items-center gap-2 truncate">
+                          <FileText className="h-4 w-4 shrink-0 text-gray-400" /> Alert.tsx
                         </span>
-                        <span className="w-1/4 text-blue-500">In Progress</span>
-                        <span className="w-1/4 opacity-70">Medium</span>
+                        <span className="hidden w-1/4 truncate text-blue-500 sm:block">In Progress</span>
+                        <span className="hidden w-1/4 truncate opacity-70 sm:block">Medium</span>
                       </ListItem>
                     </div>
                   </div>
@@ -728,7 +679,7 @@ function App() {
                   <Typography variant="title-1" emphasis>
                     Alerts
                   </Typography>
-                  <div className="min-w-140 rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
+                  <div className="rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
                     <Button variant="destructive" onClick={() => setShowAlert(true)}>
                       <Trash2 className="mr-2 h-4 w-4" />
                       Show Alert Dialog
@@ -741,7 +692,7 @@ function App() {
                   <Typography variant="title-1" emphasis>
                     Tooltips
                   </Typography>
-                  <div className="min-w-140 rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
+                  <div className="rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
                     <div className="flex gap-4">
                       <Tooltip>
                         <TooltipTrigger asChild>
@@ -774,12 +725,12 @@ function App() {
                   <Typography variant="title-1" emphasis>
                     Scrollbar
                   </Typography>
-                  <div className="min-w-140 space-y-6 rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
+                  <div className="space-y-6 rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
                     <div className="space-y-3">
                       <Typography variant="headline">Vertical Scrollbar</Typography>
-                      <div className="flex items-start gap-6">
+                      <div className="flex flex-wrap items-start gap-6">
                         <div className="relative h-48 w-64 rounded-lg bg-white dark:bg-black/20">
-                          <div className="h-full overflow-hidden p-4 pr-4">
+                          <div className="h-full overflow-y-auto p-4 pr-4 md:overflow-hidden">
                             <Typography variant="body" className="text-gray-600 dark:text-gray-400">
                               This is a scrollable content area demonstrating the custom scrollbar component. The
                               scrollbar appears on the right side and can be dragged to scroll through content.
@@ -801,7 +752,7 @@ function App() {
                           />
                         </div>
                         <div className="relative h-48 w-64 rounded-lg bg-white dark:bg-black/20">
-                          <div className="h-full overflow-hidden p-4 pr-4">
+                          <div className="h-full overflow-y-auto p-4 pr-4 md:overflow-hidden">
                             <Typography variant="body" className="text-gray-600 dark:text-gray-400">
                               Another example with different scroll position and visible ratio. The scrollbar thumb is
                               positioned further down.
@@ -820,8 +771,8 @@ function App() {
                     <div className="space-y-3">
                       <Typography variant="headline">Horizontal Scrollbar</Typography>
                       <div className="flex flex-col gap-4">
-                        <div className="relative w-80 rounded-lg bg-white dark:bg-black/20">
-                          <div className="overflow-hidden p-4 pb-6">
+                        <div className="relative w-full max-w-80 rounded-lg bg-white dark:bg-black/20">
+                          <div className="overflow-x-auto p-4 pb-6 md:overflow-hidden">
                             <Typography variant="body" className="whitespace-nowrap text-gray-600 dark:text-gray-400">
                               This content is wider than the container and can be scrolled horizontally using the
                               scrollbar below.

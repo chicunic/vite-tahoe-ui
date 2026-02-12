@@ -124,9 +124,10 @@ export function LiquidGlass({
     <div className={cn("relative", className)} style={{ width, height }}>
       <Canvas
         className="pointer-events-none absolute inset-0"
-        gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+        frameloop="demand"
+        gl={{ antialias: false, alpha: true, powerPreference: "default" }}
         camera={{ position: [0, 0, 5], fov: 25 }}
-        style={{ position: "absolute", inset: 0, pointerEvents: "none" }}
+        dpr={[1, 1.5]}
       >
         <ambientLight intensity={0.5} />
         <directionalLight position={[5, 5, 5]} intensity={intensity} />
@@ -141,6 +142,7 @@ export function LiquidGlass({
           roughness={0.03}
           chromaticAberration={0.01}
           distortion={0.05}
+          temporalDistortion={0}
         />
       </Canvas>
       <div className="pointer-events-auto relative z-10 h-full">{children}</div>
@@ -173,6 +175,8 @@ export function LiquidGlassPanel({
     const container = containerRef.current;
     if (!container) return;
 
+    let timeoutId: ReturnType<typeof setTimeout>;
+
     const updateDimensions = (): void => {
       const rect = container.getBoundingClientRect();
       setDimensions({ width: rect.width, height: rect.height });
@@ -181,55 +185,57 @@ export function LiquidGlassPanel({
     updateDimensions();
     setIsReady(true);
 
-    const resizeObserver = new ResizeObserver(updateDimensions);
+    const resizeObserver = new ResizeObserver(() => {
+      clearTimeout(timeoutId);
+      timeoutId = setTimeout(updateDimensions, 100);
+    });
+
     resizeObserver.observe(container);
-    return () => resizeObserver.disconnect();
+    return () => {
+      resizeObserver.disconnect();
+      clearTimeout(timeoutId);
+    };
   }, []);
 
   const glassWidth = dimensions.width / SCALE_FACTOR;
   const glassHeight = dimensions.height / SCALE_FACTOR;
   const glassRadius = borderRadius / SCALE_FACTOR;
+  const radiusClass = `rounded-[${borderRadius}px]`;
+  const edgeRadiusClass = `rounded-[${borderRadius + 8}px]`;
 
   return (
     <div
       ref={containerRef}
-      className={cn("relative h-full", className)}
+      className={cn("relative h-full", radiusClass, className)}
       style={{
         width,
-        borderRadius,
         ...(height !== "auto" && { height }),
         ...style,
       }}
     >
       {/* Blur edge effect */}
       <div
-        className="pointer-events-none absolute"
-        style={{
-          inset: -8,
-          borderRadius: borderRadius + 8,
-          background: "rgba(0,0,0,0.03)",
-          filter: "blur(12px)",
-          mixBlendMode: "hard-light",
-        }}
+        className={cn(
+          "pointer-events-none absolute -inset-2",
+          edgeRadiusClass,
+          "bg-black/[0.03] mix-blend-hard-light blur-[12px]",
+        )}
       />
 
       {/* Fill layers */}
-      <div className="pointer-events-none absolute inset-0" style={{ borderRadius, overflow: "hidden" }}>
-        <div
-          className="absolute inset-0"
-          style={{ backgroundColor: "#262626", mixBlendMode: "color-dodge", borderRadius }}
-        />
-        <div className="absolute inset-0" style={{ backgroundColor: "rgba(245,245,245,0.67)", borderRadius }} />
+      <div className={cn("pointer-events-none absolute inset-0 overflow-hidden", radiusClass)}>
+        <div className={cn("absolute inset-0 bg-dark-bg-500 mix-blend-color-dodge", radiusClass)} />
+        <div className={cn("absolute inset-0 bg-gray-bg-100/67", radiusClass)} />
       </div>
 
-      {/* 3D Glass Effect */}
+      {/* 3D Glass Effect - Optimized */}
       {isReady && (
         <Canvas
-          className="pointer-events-none absolute inset-0 z-0"
-          style={{ borderRadius }}
-          gl={{ antialias: true, alpha: true, powerPreference: "high-performance" }}
+          className={cn("pointer-events-none absolute inset-0 z-0", radiusClass)}
+          frameloop="demand"
+          gl={{ antialias: false, alpha: true, powerPreference: "default" }}
           camera={{ position: [0, 0, 5], fov: 25 }}
-          dpr={[1, 2]}
+          dpr={[1, 1.5]}
         >
           <color attach="background" args={["transparent"]} />
           <ambientLight intensity={0.6} />
@@ -238,7 +244,7 @@ export function LiquidGlassPanel({
           <RoundedBox args={[glassWidth, glassHeight, 0.06]} radius={glassRadius} smoothness={4}>
             <MeshTransmissionMaterial
               backside
-              samples={8}
+              samples={4}
               resolution={256}
               transmission={0.92}
               roughness={0.03}
@@ -247,7 +253,7 @@ export function LiquidGlassPanel({
               chromaticAberration={0.02}
               distortion={0.03}
               distortionScale={0.2}
-              temporalDistortion={0.02}
+              temporalDistortion={0}
               clearcoat={1}
               clearcoatRoughness={0.03}
               attenuationDistance={0.8}
@@ -260,9 +266,7 @@ export function LiquidGlassPanel({
       )}
 
       {/* Content */}
-      <div className="pointer-events-auto absolute inset-0 z-10 flex flex-col" style={{ borderRadius }}>
-        {children}
-      </div>
+      <div className={cn("pointer-events-auto absolute inset-0 z-10 flex flex-col", radiusClass)}>{children}</div>
     </div>
   );
 }

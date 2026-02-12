@@ -27,31 +27,34 @@ function CssSidebar({ children }: { children: React.ReactNode }): React.ReactEle
 /** Window Control Button */
 type ControlColor = "close" | "minimize" | "zoom";
 
-const CONTROL_BUTTON_CONFIG: Record<ControlColor, { bg: string; icon: string }> = {
-  close: { bg: "#FF736A", icon: "\u00D7" },
-  minimize: { bg: "#FEBC2E", icon: "\u2212" },
-  zoom: { bg: "#19C332", icon: "+" },
+const CONTROL_COLORS: Record<ControlColor, string> = {
+  close: "bg-control-close",
+  minimize: "bg-control-minimize",
+  zoom: "bg-control-zoom",
+};
+
+const CONTROL_ICONS: Record<ControlColor, string> = {
+  close: "\u00D7",
+  minimize: "\u2212",
+  zoom: "+",
 };
 
 function WindowControlButton({ color, onClick }: { color: ControlColor; onClick?: () => void }): React.ReactElement {
-  const [isHovered, setIsHovered] = React.useState(false);
-  const { bg, icon } = CONTROL_BUTTON_CONFIG[color];
-
   return (
     <button
       type="button"
       className={cn(
-        "flex size-3.5 items-center justify-center rounded-full",
+        "group flex size-3.5 items-center justify-center rounded-full",
         "cursor-default transition-all duration-100",
         "shadow-control-inset",
         "focus:outline-none focus-visible:ring-1 focus-visible:ring-white/50",
+        CONTROL_COLORS[color],
       )}
-      style={{ backgroundColor: bg }}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
       onClick={onClick}
     >
-      {isHovered && <span className="font-bold text-[9px] text-black/40 leading-none">{icon}</span>}
+      <span className="hidden font-bold text-[9px] text-black/40 leading-none group-hover:inline">
+        {CONTROL_ICONS[color]}
+      </span>
     </button>
   );
 }
@@ -95,7 +98,7 @@ export const Window = React.forwardRef<HTMLDivElement, WindowProps>(function Win
     >
       {/* Sidebar */}
       {sidebar && (
-        <div className="flex w-60 shrink-0 flex-col p-2">
+        <div className="hidden w-60 shrink-0 flex-col p-2 md:flex">
           <SidebarWrapper {...sidebarProps}>
             <div className="relative flex h-10.5 shrink-0 items-center px-2.5" data-tauri-drag-region>
               <WindowControls />
@@ -106,20 +109,20 @@ export const Window = React.forwardRef<HTMLDivElement, WindowProps>(function Win
       )}
 
       {/* Main Content */}
-      <div className="flex min-w-0 flex-1 flex-col bg-white dark:bg-dark-bg-600">
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col bg-white dark:bg-dark-bg-600">
         {/* Toolbar */}
         <div
           className={cn(
             "flex h-13 shrink-0 items-center border-black/5 border-b px-4 dark:border-white/5",
-            !sidebar && "pl-20",
+            "pl-20",
+            sidebar && "md:pl-4",
           )}
           data-tauri-drag-region
         >
-          {!sidebar && (
-            <div className="absolute left-4 flex gap-2">
-              <WindowControls />
-            </div>
-          )}
+          {/* Mobile controls (always shown if sidebar is hidden on mobile) */}
+          <div className={cn("absolute left-4 flex gap-2", sidebar && "md:hidden")}>
+            <WindowControls />
+          </div>
 
           <div className="flex flex-1 items-center justify-between gap-4">
             {title && !toolbar && (
@@ -134,7 +137,7 @@ export const Window = React.forwardRef<HTMLDivElement, WindowProps>(function Win
         </div>
 
         {/* Content */}
-        <div className="flex-1 overflow-auto">{children}</div>
+        <div className="min-h-0 flex-1 overflow-auto">{children}</div>
       </div>
     </div>
   );

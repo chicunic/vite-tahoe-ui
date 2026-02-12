@@ -11,7 +11,7 @@ const SIZE_CLASSES: Record<ButtonSize, string> = {
   lg: "h-7 text-[14px]",
 };
 
-const DROPDOWN_BUTTON_BASE_CLASSES = [
+const DROPDOWN_BUTTON_BASE_CLASSES = cn(
   "relative inline-flex min-w-25 items-center pl-3",
   "cursor-default select-none rounded-md font-medium",
   "bg-black/5 text-[rgba(0,0,0,0.85)]",
@@ -20,7 +20,7 @@ const DROPDOWN_BUTTON_BASE_CLASSES = [
   "data-state-open:bg-black/15",
   "dark:bg-white/10 dark:text-[rgba(255,255,255,0.85)]",
   "dark:hover:bg-white/20 dark:active:bg-white/25 dark:data-state-open:bg-white/20",
-].join(" ");
+);
 
 interface DropdownButtonBaseProps {
   label: string;

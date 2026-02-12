@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 @theme {
+  /* Typography */
   --font-sans:
     "SF Pro Text", "SF Pro Display", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial,
     sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -9,6 +10,11 @@
   --color-apple-blue: #007aff;
   --color-apple-blue-light: #0088ff;
   --color-apple-blue-primary: #0d6fff;
+
+  /* Apple System Colors - Semantic */
+  --color-apple-red: #ff383c;
+  --color-apple-green: #34c759;
+  --color-apple-green-dark: #32d74b;
 
   /* Apple System Colors - Gray (Light Mode) */
   --color-gray-text: #4c4c4c;
@@ -33,19 +39,17 @@
   --color-dark-bg-500: #262626;
   --color-dark-bg-600: #1e1e1e;
 
-  /* Apple System Colors - Semantic */
-  --color-apple-red: #ff383c;
-  --color-apple-green: #34c759;
-  --color-apple-green-dark: #32d74b;
+  /* Custom Materials */
+  --color-material-ultrathick: rgba(246, 246, 246, 0.84);
+
+  /* Window Control Colors */
+  --color-control-close: #ff736a;
+  --color-control-minimize: #febc2e;
+  --color-control-zoom: #19c332;
 
   /* Custom Shadows */
   --shadow-glass: 0 2px 10px rgba(0, 0, 0, 0.08), 0 4px 20px rgba(0, 0, 0, 0.04);
   --shadow-control-inset: inset 0 0 0 0.5px rgba(0, 0, 0, 0.1);
-}
-
-:root {
-  /* Materials - Light Mode */
-  --material-ultrathick: rgba(246, 246, 246, 0.84);
 }
 
 @layer components {
@@ -69,14 +73,8 @@
   }
 
   /* Glass effect styles */
-  .glass-bg {
-    @apply bg-gray-bg-100/95 backdrop-blur-[25px] dark:bg-dark-bg-300/95;
-  }
-  .glass-border {
-    @apply border border-black/10 dark:border-white/10;
-  }
   .glass-effect {
-    @apply bg-gray-bg-100/95 backdrop-blur-[25px] dark:bg-dark-bg-300/95 border border-black/10 dark:border-white/10;
+    @apply border border-black/10 bg-gray-bg-100/95 backdrop-blur-[25px] dark:border-white/10 dark:bg-dark-bg-300/95;
   }
 
   /* Text colors */
@@ -95,7 +93,7 @@
 
 @layer utilities {
   .material-ultrathick {
-    background-color: var(--material-ultrathick);
+    background-color: var(--color-material-ultrathick);
     backdrop-filter: blur(25px);
     -webkit-backdrop-filter: blur(25px);
     border: 1px solid rgba(255, 255, 255, 0.2);

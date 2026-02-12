@@ -1,21 +1,12 @@
 import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as TooltipPrimitive from "@radix-ui/react-tooltip";
+import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
 import { Typography } from "@/components/Typography";
+import { DROPDOWN_ANIMATION } from "@/styles";
 import { cn } from "@/utils";
 
-// Animation classes for dropdown/popover (can't use @apply with data-* prefixes)
-const DROPDOWN_ANIMATION = [
-  "data-state-closed:animate-out data-state-open:animate-in",
-  "data-state-closed:fade-out-0 data-state-open:fade-in-0",
-  "data-state-closed:zoom-out-95 data-state-open:zoom-in-95",
-  "data-side-bottom:slide-in-from-top-2 data-side-left:slide-in-from-right-2",
-  "data-side-right:slide-in-from-left-2 data-side-top:slide-in-from-bottom-2",
-].join(" ");
-
-/**
- * Dialog / Alert Components
- */
+/** Dialog / Alert Components */
 export const Dialog = DialogPrimitive.Root;
 export const DialogTrigger = DialogPrimitive.Trigger;
 export const DialogPortal = DialogPrimitive.Portal;
@@ -57,34 +48,31 @@ export const DialogContent = React.forwardRef<
   );
 });
 
-/**
- * AlertButton Component
- * Pill-shaped buttons specifically for Alert dialogs
- */
-export interface AlertButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: "primary" | "secondary" | "destructive";
-}
+/** AlertButton - Pill-shaped buttons for Alert dialogs */
+const alertButtonVariants = cva("h-7 w-full rounded-full px-4 font-medium text-[13px] transition-colors duration-75", {
+  variants: {
+    variant: {
+      primary: "bg-apple-blue-light text-white hover:bg-apple-blue-light/90",
+      secondary:
+        "bg-gray-bg-400 text-black/85 hover:bg-gray-border dark:bg-dark-bg-100 dark:text-white/85 dark:hover:bg-dark-bg-400",
+      destructive: "bg-apple-red/23 text-apple-red hover:bg-apple-red/30",
+    },
+  },
+  defaultVariants: {
+    variant: "primary",
+  },
+});
 
-const ALERT_BUTTON_BASE = "h-7 w-full rounded-full px-4 text-[13px] font-medium transition-colors duration-75";
-
-const ALERT_BUTTON_VARIANTS: Record<NonNullable<AlertButtonProps["variant"]>, string> = {
-  primary: "bg-apple-blue-light text-white hover:bg-apple-blue-light/90",
-  secondary:
-    "bg-gray-bg-400 dark:bg-dark-bg-100 text-black/85 dark:text-white/85 hover:bg-gray-border dark:hover:bg-dark-bg-400",
-  destructive: "bg-apple-red/23 text-apple-red hover:bg-apple-red/30",
-};
+export interface AlertButtonProps
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
+    VariantProps<typeof alertButtonVariants> {}
 
 export const AlertButton = React.forwardRef<HTMLButtonElement, AlertButtonProps>(function AlertButton(
-  { className, variant = "primary", children, ...props },
+  { className, variant, children, ...props },
   ref,
 ) {
   return (
-    <button
-      ref={ref}
-      type="button"
-      className={cn(ALERT_BUTTON_BASE, ALERT_BUTTON_VARIANTS[variant], className)}
-      {...props}
-    >
+    <button ref={ref} type="button" className={cn(alertButtonVariants({ variant, className }))} {...props}>
       {children}
     </button>
   );
@@ -120,14 +108,12 @@ export function Alert({
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="flex flex-col gap-2.5 p-4">
-        {/* Icon */}
         {icon && (
           <div className="flex items-center px-1.5">
             <div className="flex size-16 items-center justify-center">{icon}</div>
           </div>
         )}
 
-        {/* Title + Description */}
         <div className="flex flex-col gap-2.5 px-1.5">
           <Typography variant="headline" className="text-[rgba(0,0,0,0.85)] dark:text-[rgba(255,255,255,0.85)]">
             {title}
@@ -139,9 +125,8 @@ export function Alert({
           )}
         </div>
 
-        {/* Buttons */}
         <div className="flex w-full flex-col gap-1.5">
-          <AlertButton variant={primaryAction.variant ?? "primary"} onClick={primaryAction.onClick}>
+          <AlertButton variant={primaryAction.variant} onClick={primaryAction.onClick}>
             {primaryAction.label}
           </AlertButton>
           {secondaryAction && (
@@ -160,9 +145,7 @@ export function Alert({
   );
 }
 
-/**
- * Tooltip Components
- */
+/** Tooltip Components */
 export const TooltipProvider = TooltipPrimitive.Provider;
 export const Tooltip = TooltipPrimitive.Root;
 export const TooltipTrigger = TooltipPrimitive.Trigger;

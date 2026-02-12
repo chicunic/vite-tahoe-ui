@@ -111,7 +111,7 @@ export const Scrollbar = React.forwardRef<HTMLDivElement, ScrollbarProps>(functi
     : { height: 6, width: `${thumbSize}%`, left: `${thumbPosition}%`, top: "50%", marginTop: -3 };
 
   return (
-    <div ref={ref} className={cn(scrollbarVariants({ orientation }), "select-none", className)}>
+    <div ref={ref} className={cn(scrollbarVariants({ orientation }), "hidden select-none md:flex", className)}>
       {/* biome-ignore lint/a11y/noStaticElementInteractions: Scrollbar track is mouse-only interaction */}
       <div ref={trackRef} className="relative h-full w-full" role="presentation" onClick={handleTrackClick}>
         <div
