@@ -167,4 +167,4 @@ const DisclosureButton = React.forwardRef<HTMLButtonElement, DisclosureButtonPro
   );
 });
 
-export { SegmentedControl, Segment, DisclosureButton };
+export { DisclosureButton, Segment, SegmentedControl };

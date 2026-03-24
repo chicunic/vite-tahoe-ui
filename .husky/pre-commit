@@ -7,12 +7,12 @@ if ! git diff --quiet; then
   exit 1
 fi
 
-# Run biome check
-echo "🔍 Running biome check..."
-pnpm run lint
+# Run check (tsc + biome)
+echo "🔍 Running check..."
+pnpm run check
 
 if [ $? -ne 0 ]; then
-  echo "❌ Biome check failed. Commit aborted."
+  echo "❌ Check failed. Commit aborted."
   exit 1
 fi
 

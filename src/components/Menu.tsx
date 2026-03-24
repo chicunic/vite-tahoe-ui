@@ -192,18 +192,19 @@ const DropdownMenuRadioGroup = DropdownMenuPrimitive.RadioGroup;
 
 export {
   DropdownMenu,
-  DropdownMenuTrigger,
   DropdownMenuGroup,
-  DropdownMenuSub,
   DropdownMenuRadioGroup,
+  DropdownMenuSub,
+  DropdownMenuTrigger,
   MenuContent,
+  MenuHeader,
   MenuItem,
   MenuSeparator,
-  MenuHeader,
-  SubMenuTrigger,
-  SubMenuContent,
+  // Popover
   Popover,
-  PopoverTrigger,
   PopoverAnchor,
   PopoverContent,
+  PopoverTrigger,
+  SubMenuContent,
+  SubMenuTrigger,
 };
