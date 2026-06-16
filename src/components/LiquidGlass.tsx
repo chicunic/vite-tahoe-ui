@@ -1,12 +1,12 @@
-import { Environment, MeshTransmissionMaterial, RoundedBox } from "@react-three/drei";
-import { Canvas, useThree } from "@react-three/fiber";
-import * as React from "react";
-import { cn } from "@/utils";
+import { Environment, MeshTransmissionMaterial, RoundedBox } from '@react-three/drei';
+import { Canvas, useThree } from '@react-three/fiber';
+import * as React from 'react';
+import { cn } from '@/utils';
 
 function checkWebGLSupport(): boolean {
   try {
-    const canvas = document.createElement("canvas");
-    const gl = canvas.getContext("webgl2") || canvas.getContext("webgl");
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl2') || canvas.getContext('webgl');
     return Boolean(gl);
   } catch {
     return false;
@@ -107,25 +107,25 @@ export function LiquidGlass({
     return (
       <div
         className={cn(
-          "relative overflow-hidden rounded-[18px]",
-          "border border-white/30 shadow-[0_0_0_0.5px_rgba(0,0,0,0.1)]",
+          'relative overflow-hidden rounded-[18px]',
+          'border border-white/30 shadow-[0_0_0_0.5px_rgba(0,0,0,0.1)]',
           className,
         )}
         style={{ width, height }}
       >
-        <div className="absolute inset-0 bg-gray-bg-100/67 backdrop-blur-[25px]" />
-        <div className="absolute inset-0 bg-dark-bg-500 mix-blend-color-dodge" />
+        <div className="bg-gray-bg-100/67 absolute inset-0 backdrop-blur-[25px]" />
+        <div className="bg-dark-bg-500 absolute inset-0 mix-blend-color-dodge" />
         <div className="relative z-10">{children}</div>
       </div>
     );
   }
 
   return (
-    <div className={cn("relative", className)} style={{ width, height }}>
+    <div className={cn('relative', className)} style={{ width, height }}>
       <Canvas
         className="pointer-events-none absolute inset-0"
         frameloop="demand"
-        gl={{ antialias: false, alpha: true, powerPreference: "default" }}
+        gl={{ antialias: false, alpha: true, powerPreference: 'default' }}
         camera={{ position: [0, 0, 5], fov: 25 }}
         dpr={[1, 1.5]}
       >
@@ -155,7 +155,7 @@ export interface LiquidGlassPanelProps {
   className?: string;
   style?: React.CSSProperties;
   width?: number;
-  height?: number | "auto";
+  height?: number | 'auto';
   borderRadius?: number;
 }
 
@@ -164,7 +164,7 @@ export function LiquidGlassPanel({
   className,
   style,
   width = 224,
-  height = "auto",
+  height = 'auto',
   borderRadius = 18,
 }: LiquidGlassPanelProps): React.ReactElement {
   const containerRef = React.useRef<HTMLDivElement>(null);
@@ -200,44 +200,44 @@ export function LiquidGlassPanel({
   const glassWidth = dimensions.width / SCALE_FACTOR;
   const glassHeight = dimensions.height / SCALE_FACTOR;
   const glassRadius = borderRadius / SCALE_FACTOR;
-  const radiusClass = `rounded-[${borderRadius}px]`;
-  const edgeRadiusClass = `rounded-[${borderRadius + 8}px]`;
+  const radiusClass = `rounded-[${String(borderRadius)}px]`;
+  const edgeRadiusClass = `rounded-[${String(borderRadius + 8)}px]`;
 
   return (
     <div
       ref={containerRef}
-      className={cn("relative h-full", radiusClass, className)}
+      className={cn('relative h-full', radiusClass, className)}
       style={{
         width,
-        ...(height !== "auto" && { height }),
+        ...(height !== 'auto' && { height }),
         ...style,
       }}
     >
       {/* Blur edge effect */}
       <div
         className={cn(
-          "pointer-events-none absolute -inset-2",
+          'pointer-events-none absolute -inset-2',
           edgeRadiusClass,
-          "bg-black/[0.03] mix-blend-hard-light blur-[12px]",
+          'bg-black/[0.03] mix-blend-hard-light blur-[12px]',
         )}
       />
 
       {/* Fill layers */}
-      <div className={cn("pointer-events-none absolute inset-0 overflow-hidden", radiusClass)}>
-        <div className={cn("absolute inset-0 bg-dark-bg-500 mix-blend-color-dodge", radiusClass)} />
-        <div className={cn("absolute inset-0 bg-gray-bg-100/67", radiusClass)} />
+      <div className={cn('pointer-events-none absolute inset-0 overflow-hidden', radiusClass)}>
+        <div className={cn('bg-dark-bg-500 absolute inset-0 mix-blend-color-dodge', radiusClass)} />
+        <div className={cn('bg-gray-bg-100/67 absolute inset-0', radiusClass)} />
       </div>
 
       {/* 3D Glass Effect - Optimized */}
       {isReady && (
         <Canvas
-          className={cn("pointer-events-none absolute inset-0 z-0", radiusClass)}
+          className={cn('pointer-events-none absolute inset-0 z-0', radiusClass)}
           frameloop="demand"
-          gl={{ antialias: false, alpha: true, powerPreference: "default" }}
+          gl={{ antialias: false, alpha: true, powerPreference: 'default' }}
           camera={{ position: [0, 0, 5], fov: 25 }}
           dpr={[1, 1.5]}
         >
-          <color attach="background" args={["transparent"]} />
+          <color attach="background" args={['transparent']} />
           <ambientLight intensity={0.6} />
           <directionalLight position={[2, 4, 3]} intensity={0.8} />
           <Environment preset="apartment" />
@@ -266,7 +266,7 @@ export function LiquidGlassPanel({
       )}
 
       {/* Content */}
-      <div className={cn("pointer-events-auto absolute inset-0 z-10 flex flex-col", radiusClass)}>{children}</div>
+      <div className={cn('pointer-events-auto absolute inset-0 z-10 flex flex-col', radiusClass)}>{children}</div>
     </div>
   );
 }

@@ -1,22 +1,22 @@
-import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
-import * as PopoverPrimitive from "@radix-ui/react-popover";
-import { Check, ChevronRight } from "lucide-react";
-import * as React from "react";
-import { DROPDOWN_ANIMATION } from "@/styles";
-import { cn } from "@/utils";
+import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
+import * as PopoverPrimitive from '@radix-ui/react-popover';
+import { Check, ChevronRight } from 'lucide-react';
+import * as React from 'react';
+import { DROPDOWN_ANIMATION } from '@/styles';
+import { cn } from '@/utils';
 
 const MENU_CONTENT_CLASSES = cn(
-  "z-50 min-w-45 overflow-hidden rounded-[13px] px-3 py-1.25",
-  "bg-linear-to-r from-gray-bg-300 to-gray-bg-100",
-  "dark:bg-linear-to-r dark:from-dark-bg-400 dark:to-dark-bg-100",
-  "shadow-[0_0_2px_rgba(0,0,0,0.1),0_0_25px_rgba(0,0,0,0.16)]",
+  'z-50 min-w-45 overflow-hidden rounded-[13px] px-3 py-1.25',
+  'bg-linear-to-r from-gray-bg-300 to-gray-bg-100',
+  'dark:bg-linear-to-r dark:from-dark-bg-400 dark:to-dark-bg-100',
+  'shadow-[0_0_2px_rgba(0,0,0,0.1),0_0_25px_rgba(0,0,0,0.16)]',
   DROPDOWN_ANIMATION,
 );
 
 const MENU_ITEM_BASE_CLASSES = cn(
-  "relative flex h-6 items-center gap-1.5 pl-3",
-  "cursor-default select-none rounded-lg font-medium text-[13px] outline-none",
-  "transition-colors duration-75",
+  'relative flex h-6 items-center gap-1.5 pl-3',
+  'cursor-default select-none rounded-lg font-medium text-[13px] outline-none',
+  'transition-colors duration-75',
 );
 
 /** Menu Item - Tahoe style with icon, label, and keyboard shortcut */
@@ -33,10 +33,10 @@ const MenuItem = React.forwardRef<React.ComponentRef<typeof DropdownMenuPrimitiv
         ref={ref}
         className={cn(
           MENU_ITEM_BASE_CLASSES,
-          "-mx-1.75 px-1.75",
-          "text-interactive",
-          "focus:bg-apple-blue-light focus:text-white",
-          "data-disabled:pointer-events-none data-disabled:text-gray-text-disabled",
+          '-mx-1.75 px-1.75',
+          'text-interactive',
+          'focus:bg-apple-blue-light focus:text-white',
+          'data-disabled:text-gray-text-disabled data-disabled:pointer-events-none',
           className,
         )}
         {...props}
@@ -50,7 +50,7 @@ const MenuItem = React.forwardRef<React.ComponentRef<typeof DropdownMenuPrimitiv
         </span>
         <span className="flex-1 truncate">{children}</span>
         {shortcut && (
-          <span className="ml-4 text-[13px] text-gray-text-disabled group-focus:text-white/80">{shortcut}</span>
+          <span className="text-gray-text-disabled ml-4 text-[13px] group-focus:text-white/80">{shortcut}</span>
         )}
       </DropdownMenuPrimitive.Item>
     );
@@ -63,8 +63,8 @@ const MenuSeparator = React.forwardRef<
   React.ComponentPropsWithoutRef<typeof DropdownMenuPrimitive.Separator>
 >(function MenuSeparator({ className, ...props }, ref) {
   return (
-    <DropdownMenuPrimitive.Separator ref={ref} className={cn("flex h-2.75 items-center px-1.75", className)} {...props}>
-      <div className="h-px w-full bg-gray-bg-400 dark:bg-dark-bg-100" />
+    <DropdownMenuPrimitive.Separator ref={ref} className={cn('flex h-2.75 items-center px-1.75', className)} {...props}>
+      <div className="bg-gray-bg-400 dark:bg-dark-bg-100 h-px w-full" />
     </DropdownMenuPrimitive.Separator>
   );
 });
@@ -78,8 +78,8 @@ const MenuHeader = React.forwardRef<
     <DropdownMenuPrimitive.Label
       ref={ref}
       className={cn(
-        "flex h-5.25 items-center px-1.75",
-        "font-semibold text-[11px] text-gray-text-secondary uppercase tracking-wide",
+        'flex h-5.25 items-center px-1.75',
+        'text-gray-text-secondary text-[11px] font-semibold tracking-wide uppercase',
         className,
       )}
       {...props}
@@ -118,10 +118,10 @@ const SubMenuTrigger = React.forwardRef<
       ref={ref}
       className={cn(
         MENU_ITEM_BASE_CLASSES,
-        "-mx-1.75 px-1.75",
-        "text-interactive",
-        "focus:bg-apple-blue-light focus:text-white",
-        "data-state-open:bg-apple-blue-light data-state-open:text-white",
+        '-mx-1.75 px-1.75',
+        'text-interactive',
+        'focus:bg-apple-blue-light focus:text-white',
+        'data-state-open:bg-apple-blue-light data-state-open:text-white',
         className,
       )}
       {...props}
@@ -157,7 +157,7 @@ interface PopoverContentProps extends React.ComponentPropsWithoutRef<typeof Popo
 }
 
 const PopoverContent = React.forwardRef<React.ComponentRef<typeof PopoverPrimitive.Content>, PopoverContentProps>(
-  function PopoverContent({ className, align = "center", sideOffset = 8, showArrow = true, children, ...props }, ref) {
+  function PopoverContent({ className, align = 'center', sideOffset = 8, showArrow = true, children, ...props }, ref) {
     return (
       <PopoverPrimitive.Portal>
         <PopoverPrimitive.Content
@@ -165,9 +165,9 @@ const PopoverContent = React.forwardRef<React.ComponentRef<typeof PopoverPrimiti
           align={align}
           sideOffset={sideOffset}
           className={cn(
-            "z-50 w-50 rounded-xl p-4",
-            "glass-effect",
-            "shadow-[0_10px_38px_-10px_rgba(22,23,24,0.35),0_10px_20px_-15px_rgba(22,23,24,0.2)]",
+            'z-50 w-50 rounded-xl p-4',
+            'glass-effect',
+            'shadow-[0_10px_38px_-10px_rgba(22,23,24,0.35),0_10px_20px_-15px_rgba(22,23,24,0.2)]',
             DROPDOWN_ANIMATION,
             className,
           )}

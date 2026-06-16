@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.local
 
+# TypeScript cache
+*.tsbuildinfo
+
 # Vite cache
 .vite
 
@@ -37,6 +40,8 @@ dist-ssr
 .continue/
 
 # Temporary files
+**/.temp/
+**/.local/
 temp/
 
 # MCP config file

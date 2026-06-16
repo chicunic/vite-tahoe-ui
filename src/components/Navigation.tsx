@@ -1,6 +1,6 @@
-import { ChevronRight } from "lucide-react";
-import * as React from "react";
-import { cn } from "@/utils";
+import { ChevronRight } from 'lucide-react';
+import * as React from 'react';
+import { cn } from '@/utils';
 
 interface SegmentProps {
   children: React.ReactNode;
@@ -27,7 +27,7 @@ const SegmentedControlContext = React.createContext<SegmentedControlContextValue
 function useSegmentedControl(): SegmentedControlContextValue {
   const context = React.useContext(SegmentedControlContext);
   if (!context) {
-    throw new Error("Segment must be used within a SegmentedControl");
+    throw new Error('Segment must be used within a SegmentedControl');
   }
   return context;
 }
@@ -44,21 +44,23 @@ const Segment = React.forwardRef<HTMLButtonElement, SegmentProps & React.ButtonH
         aria-pressed={isSelected}
         disabled={disabled}
         className={cn(
-          "relative flex flex-1 items-center justify-center",
-          "h-full min-w-0 px-2.5",
-          "font-medium text-[13px] leading-4",
-          "transition-colors duration-100",
-          "focus-visible-ring",
-          "disabled-cursor",
+          'relative flex flex-1 items-center justify-center',
+          'h-full min-w-0 px-2.5',
+          'text-[13px] leading-4 font-medium',
+          'transition-colors duration-100',
+          'focus-visible-ring',
+          'disabled-cursor',
           isSelected
-            ? "z-10 text-white"
-            : "text-gray-text hover:text-gray-text-dark dark:text-gray-text-tertiary dark:hover:text-white",
+            ? 'z-10 text-white'
+            : 'text-gray-text hover:text-gray-text-dark dark:text-gray-text-tertiary dark:hover:text-white',
           className,
         )}
-        onClick={() => !disabled && onValueChange(value)}
+        onClick={() => {
+          if (!disabled) onValueChange(value);
+        }}
         {...props}
       >
-        {isSelected && <div className="absolute inset-0 overflow-hidden rounded-md bg-apple-blue-primary" />}
+        {isSelected && <div className="bg-apple-blue-primary absolute inset-0 overflow-hidden rounded-md" />}
         <span className="relative z-10 truncate">{children}</span>
       </button>
     );
@@ -69,9 +71,9 @@ function SegmentSeparator({ visible }: { visible: boolean }): React.ReactElement
   return (
     <div
       className={cn(
-        "-mx-[0.5px] h-3.5 w-px shrink-0",
-        "transition-colors duration-100",
-        visible ? "bg-gray-bg-400 dark:bg-dark-bg-100" : "bg-transparent",
+        '-mx-[0.5px] h-3.5 w-px shrink-0',
+        'transition-colors duration-100',
+        visible ? 'bg-gray-bg-400 dark:bg-dark-bg-100' : 'bg-transparent',
       )}
     />
   );
@@ -106,10 +108,10 @@ const SegmentedControl = React.forwardRef<HTMLDivElement, SegmentedControlProps>
         ref={ref}
         role="radiogroup"
         className={cn(
-          "relative inline-flex h-6 items-center",
-          "overflow-hidden rounded-lg",
-          glass ? "bg-black/5 dark:bg-white/10" : "bg-gray-bg-300 dark:bg-dark-bg-100",
-          "border border-black/5 dark:border-white/10",
+          'relative inline-flex h-6 items-center',
+          'overflow-hidden rounded-lg',
+          glass ? 'bg-black/5 dark:bg-white/10' : 'bg-gray-bg-300 dark:bg-dark-bg-100',
+          'border border-black/5 dark:border-white/10',
           className,
         )}
       >
@@ -146,13 +148,13 @@ const DisclosureButton = React.forwardRef<HTMLButtonElement, DisclosureButtonPro
       type="button"
       aria-expanded={expanded}
       className={cn(
-        "inline-flex items-center gap-1.5",
-        "font-semibold text-[11px] uppercase tracking-wide",
-        "text-gray-text-secondary dark:text-gray-text-secondary",
-        "hover:text-gray-text-secondary-hover dark:hover:text-gray-text-tertiary",
-        "focus-visible-ring",
-        "disabled-cursor",
-        "transition-colors duration-100",
+        'inline-flex items-center gap-1.5',
+        'text-[11px] font-semibold tracking-wide uppercase',
+        'text-gray-text-secondary dark:text-gray-text-secondary',
+        'hover:text-gray-text-secondary-hover dark:hover:text-gray-text-tertiary',
+        'focus-visible-ring',
+        'disabled-cursor',
+        'transition-colors duration-100',
         className,
       )}
       onClick={() => onExpandedChange?.(!expanded)}
@@ -160,7 +162,7 @@ const DisclosureButton = React.forwardRef<HTMLButtonElement, DisclosureButtonPro
     >
       <ChevronRight
         aria-hidden="true"
-        className={cn("h-2.5 w-2.5 transition-transform duration-150", expanded ? "rotate-90" : "rotate-0")}
+        className={cn('h-2.5 w-2.5 transition-transform duration-150', expanded ? 'rotate-90' : 'rotate-0')}
       />
       {children}
     </button>

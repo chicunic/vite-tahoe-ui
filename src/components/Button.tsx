@@ -1,34 +1,34 @@
-import { cva, type VariantProps } from "class-variance-authority";
-import * as React from "react";
-import { cn } from "@/utils";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+import { cn } from '@/utils';
 
 const buttonVariants = cva(
-  "focus-ring disabled-state inline-flex select-none items-center justify-center font-medium text-[13px] transition-all duration-100 active:scale-[0.98]",
+  'focus-ring disabled-state inline-flex select-none items-center justify-center font-medium text-[13px] transition-all duration-100 active:scale-[0.98]',
   {
     variants: {
       variant: {
-        primary: "bg-apple-blue-primary text-white hover:bg-apple-blue-primary/85 active:bg-apple-blue-primary/70",
+        primary: 'bg-apple-blue-primary text-white hover:bg-apple-blue-primary/85 active:bg-apple-blue-primary/70',
         secondary:
-          "bg-black/5 text-gray-text hover:bg-black/15 active:bg-black/20 dark:bg-white/10 dark:text-gray-text-light dark:active:bg-white/25 dark:hover:bg-white/20",
-        destructive: "bg-apple-red/25 text-apple-red hover:bg-apple-red/35 active:bg-apple-red/45",
+          'bg-black/5 text-gray-text hover:bg-black/15 active:bg-black/20 dark:bg-white/10 dark:text-gray-text-light dark:active:bg-white/25 dark:hover:bg-white/20',
+        destructive: 'bg-apple-red/25 text-apple-red hover:bg-apple-red/35 active:bg-apple-red/45',
         ghost:
-          "bg-transparent text-apple-blue-light hover:bg-black/5 active:bg-black/15 dark:active:bg-white/20 dark:hover:bg-white/10",
+          'bg-transparent text-apple-blue-light hover:bg-black/5 active:bg-black/15 dark:active:bg-white/20 dark:hover:bg-white/10',
       },
       size: {
-        default: "h-8 rounded-md px-4",
-        sm: "h-7 rounded-md px-3 text-[12px]",
-        lg: "h-9 rounded-md px-5",
-        icon: "h-8 w-8 rounded-full",
+        default: 'h-8 rounded-md px-4',
+        sm: 'h-7 rounded-md px-3 text-[12px]',
+        lg: 'h-9 rounded-md px-5',
+        icon: 'h-8 w-8 rounded-full',
       },
     },
     defaultVariants: {
-      variant: "primary",
-      size: "default",
+      variant: 'primary',
+      size: 'default',
     },
   },
 );
 
-export interface ButtonProps extends React.ComponentPropsWithRef<"button">, VariantProps<typeof buttonVariants> {}
+export interface ButtonProps extends React.ComponentPropsWithRef<'button'>, VariantProps<typeof buttonVariants> {}
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   { className, variant, size, ...props },
