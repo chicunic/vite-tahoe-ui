@@ -27,8 +27,8 @@ import {
   Sparkles,
   Trash2,
   Underline,
-} from "lucide-react";
-import * as React from "react";
+} from 'lucide-react';
+import * as React from 'react';
 import {
   Alert,
   Button,
@@ -61,7 +61,7 @@ import {
   Typography,
   Window,
   WindowSearch,
-} from "@/components";
+} from '@/components';
 
 interface SidebarNavItem {
   id: string;
@@ -71,28 +71,28 @@ interface SidebarNavItem {
 }
 
 const SIDEBAR_COMPONENTS: SidebarNavItem[] = [
-  { id: "buttons", label: "Buttons", icon: <CircleDot className="h-4 w-4" /> },
-  { id: "button-group", label: "Button Group", icon: <CircleDot className="h-4 w-4" /> },
-  { id: "toggles", label: "Toggles", icon: <Sparkles className="h-4 w-4" /> },
-  { id: "text-fields", label: "Text Fields", icon: <Keyboard className="h-4 w-4" /> },
-  { id: "segmented-controls", label: "Segmented Controls", icon: <List className="h-4 w-4" /> },
-  { id: "pop-up-pull-down", label: "Pop-up/Pull-down", icon: <List className="h-4 w-4" /> },
-  { id: "sidebars", label: "Sidebars", icon: <AppWindow className="h-4 w-4" /> },
-  { id: "lists-tables", label: "Lists and Tables", icon: <List className="h-4 w-4" /> },
-  { id: "alerts", label: "Alerts", icon: <Info className="h-4 w-4" /> },
-  { id: "tooltips", label: "Tooltips", icon: <HelpCircle className="h-4 w-4" /> },
-  { id: "scrollbar", label: "Scrollbar", icon: <List className="h-4 w-4" /> },
+  { id: 'buttons', label: 'Buttons', icon: <CircleDot className="h-4 w-4" /> },
+  { id: 'button-group', label: 'Button Group', icon: <CircleDot className="h-4 w-4" /> },
+  { id: 'toggles', label: 'Toggles', icon: <Sparkles className="h-4 w-4" /> },
+  { id: 'text-fields', label: 'Text Fields', icon: <Keyboard className="h-4 w-4" /> },
+  { id: 'segmented-controls', label: 'Segmented Controls', icon: <List className="h-4 w-4" /> },
+  { id: 'pop-up-pull-down', label: 'Pop-up/Pull-down', icon: <List className="h-4 w-4" /> },
+  { id: 'sidebars', label: 'Sidebars', icon: <AppWindow className="h-4 w-4" /> },
+  { id: 'lists-tables', label: 'Lists and Tables', icon: <List className="h-4 w-4" /> },
+  { id: 'alerts', label: 'Alerts', icon: <Info className="h-4 w-4" /> },
+  { id: 'tooltips', label: 'Tooltips', icon: <HelpCircle className="h-4 w-4" /> },
+  { id: 'scrollbar', label: 'Scrollbar', icon: <List className="h-4 w-4" /> },
 ];
 
 function App() {
-  const [selectedSidebar, setSelectedSidebar] = React.useState("all-components");
+  const [selectedSidebar, setSelectedSidebar] = React.useState('all-components');
   const [showAlert, setShowAlert] = React.useState(false);
-  const [viewMode, setViewMode] = React.useState("list");
-  const [sortBy, setSortBy] = React.useState("name");
+  const [viewMode, setViewMode] = React.useState('list');
+  const [sortBy, setSortBy] = React.useState('name');
   const [disclosureExpanded, setDisclosureExpanded] = React.useState(true);
-  const [selectedFont, setSelectedFont] = React.useState("SF Pro");
-  const [selectedListItem, setSelectedListItem] = React.useState("overlays");
-  const [textAlign, setTextAlign] = React.useState("left");
+  const [selectedFont, setSelectedFont] = React.useState('SF Pro');
+  const [selectedListItem, setSelectedListItem] = React.useState('overlays');
+  const [textAlign, setTextAlign] = React.useState('left');
   const [textStyle, setTextStyle] = React.useState<string[]>([]);
   const [scrollPos1, setScrollPos1] = React.useState(0.2);
   const [scrollPos2, setScrollPos2] = React.useState(0.6);
@@ -100,10 +100,10 @@ function App() {
 
   function handleSidebarClick(id: string): void {
     setSelectedSidebar(id);
-    if (id === "all-components") {
-      document.querySelector(".flex-1.space-y-12.overflow-auto")?.scrollTo({ top: 0, behavior: "smooth" });
+    if (id === 'all-components') {
+      document.querySelector('.flex-1.space-y-12.overflow-auto')?.scrollTo({ top: 0, behavior: 'smooth' });
     } else {
-      document.getElementById(`section-${id}`)?.scrollIntoView({ behavior: "smooth" });
+      document.getElementById(`section-${id}`)?.scrollIntoView({ behavior: 'smooth' });
     }
   }
 
@@ -125,16 +125,18 @@ function App() {
                     items={[
                       {
                         icon: <ChevronLeft className="h-5! w-5! opacity-60" />,
-                        value: "back",
-                        "aria-label": "Go back",
+                        value: 'back',
+                        'aria-label': 'Go back',
                       },
                       {
                         icon: <ChevronRight className="h-5! w-5! opacity-60" />,
-                        value: "forward",
-                        "aria-label": "Go forward",
+                        value: 'forward',
+                        'aria-label': 'Go forward',
                       },
                     ]}
-                    onValueChange={(val) => console.log("Navigate:", val)}
+                    onValueChange={(val) => {
+                      console.log('Navigate:', val);
+                    }}
                   />
                 </div>
 
@@ -146,25 +148,29 @@ function App() {
                   selectionMode="none"
                   className="sm:hidden"
                   items={[
-                    { icon: <Share className="opacity-70" />, value: "share", "aria-label": "Share" },
-                    { icon: <Plus className="opacity-70" />, value: "add", "aria-label": "Add" },
+                    { icon: <Share className="opacity-70" />, value: 'share', 'aria-label': 'Share' },
+                    { icon: <Plus className="opacity-70" />, value: 'add', 'aria-label': 'Add' },
                   ]}
-                  onValueChange={(val) => console.log("Action:", val)}
+                  onValueChange={(val) => {
+                    console.log('Action:', val);
+                  }}
                 />
                 <ButtonGroup
                   size="xl"
                   selectionMode="none"
                   className="hidden sm:inline-flex"
                   items={[
-                    { icon: <Share className="opacity-70" />, value: "share", "aria-label": "Share" },
+                    { icon: <Share className="opacity-70" />, value: 'share', 'aria-label': 'Share' },
                     {
                       icon: <MessageCircle className="opacity-70" />,
-                      value: "message",
-                      "aria-label": "Message",
+                      value: 'message',
+                      'aria-label': 'Message',
                     },
-                    { icon: <Plus className="opacity-70" />, value: "add", "aria-label": "Add" },
+                    { icon: <Plus className="opacity-70" />, value: 'add', 'aria-label': 'Add' },
                   ]}
-                  onValueChange={(val) => console.log("Action:", val)}
+                  onValueChange={(val) => {
+                    console.log('Action:', val);
+                  }}
                 />
               </div>
             }
@@ -172,8 +178,10 @@ function App() {
               <div className="flex flex-1 flex-col py-2">
                 <SidebarSection title="Library">
                   <SidebarItem
-                    state={selectedSidebar === "all-components" ? "selected" : "default"}
-                    onClick={() => handleSidebarClick("all-components")}
+                    state={selectedSidebar === 'all-components' ? 'selected' : 'default'}
+                    onClick={() => {
+                      handleSidebarClick('all-components');
+                    }}
                     icon={<Package className="h-4 w-4" />}
                   >
                     All Components
@@ -184,8 +192,10 @@ function App() {
                   {SIDEBAR_COMPONENTS.map((item) => (
                     <SidebarItem
                       key={item.id}
-                      state={selectedSidebar === item.id ? "selected" : "default"}
-                      onClick={() => handleSidebarClick(item.id)}
+                      state={selectedSidebar === item.id ? 'selected' : 'default'}
+                      onClick={() => {
+                        handleSidebarClick(item.id);
+                      }}
                       icon={item.icon}
                     >
                       {item.label}
@@ -202,7 +212,7 @@ function App() {
             <div className="flex h-full min-h-0 flex-col bg-white dark:bg-[#1E1E1E]">
               <div className="min-h-0 flex-1 space-y-12 overflow-auto overscroll-contain p-6 pb-24 lg:p-10">
                 {/* Header */}
-                <header className="space-y-2 border-black/5 border-b pb-8">
+                <header className="space-y-2 border-b border-black/5 pb-8">
                   <Typography variant="large-title" emphasis>
                     Showcase
                   </Typography>
@@ -259,7 +269,9 @@ function App() {
                           variant="ghost"
                           size="icon"
                           className="h-8 w-8 rounded-lg bg-black/5 text-red-500"
-                          onClick={() => setShowAlert(true)}
+                          onClick={() => {
+                            setShowAlert(true);
+                          }}
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -280,40 +292,46 @@ function App() {
                         <ButtonGroup
                           size="xl"
                           items={[
-                            { icon: <ChevronLeft className="h-5 w-5" />, value: "prev", "aria-label": "Previous" },
-                            { icon: <ChevronRight className="h-5 w-5" />, value: "next", "aria-label": "Next" },
+                            { icon: <ChevronLeft className="h-5 w-5" />, value: 'prev', 'aria-label': 'Previous' },
+                            { icon: <ChevronRight className="h-5 w-5" />, value: 'next', 'aria-label': 'Next' },
                           ]}
                           value="prev"
-                          onValueChange={(val) => console.log(val)}
+                          onValueChange={(val) => {
+                            console.log(val);
+                          }}
                         />
                         <ButtonGroup
                           size="xl"
                           items={[
-                            { icon: <AlignLeft className="h-5 w-5" />, value: "left", "aria-label": "Align left" },
+                            { icon: <AlignLeft className="h-5 w-5" />, value: 'left', 'aria-label': 'Align left' },
                             {
                               icon: <AlignCenter className="h-5 w-5" />,
-                              value: "center",
-                              "aria-label": "Align center",
+                              value: 'center',
+                              'aria-label': 'Align center',
                             },
-                            { icon: <AlignRight className="h-5 w-5" />, value: "right", "aria-label": "Align right" },
+                            { icon: <AlignRight className="h-5 w-5" />, value: 'right', 'aria-label': 'Align right' },
                           ]}
                           value={textAlign}
-                          onValueChange={(val) => setTextAlign(val as string)}
+                          onValueChange={(val) => {
+                            setTextAlign(val as string);
+                          }}
                         />
                         <ButtonGroup
                           size="xl"
                           selectionMode="multiple"
                           items={[
-                            { icon: <Bold className="h-5 w-5" />, value: "bold", "aria-label": "Bold" },
-                            { icon: <Italic className="h-5 w-5" />, value: "italic", "aria-label": "Italic" },
+                            { icon: <Bold className="h-5 w-5" />, value: 'bold', 'aria-label': 'Bold' },
+                            { icon: <Italic className="h-5 w-5" />, value: 'italic', 'aria-label': 'Italic' },
                             {
                               icon: <Underline className="h-5 w-5" />,
-                              value: "underline",
-                              "aria-label": "Underline",
+                              value: 'underline',
+                              'aria-label': 'Underline',
                             },
                           ]}
                           value={textStyle}
-                          onValueChange={(val) => setTextStyle(val as string[])}
+                          onValueChange={(val) => {
+                            setTextStyle(val as string[]);
+                          }}
                         />
                       </div>
                     </div>
@@ -323,40 +341,46 @@ function App() {
                         <ButtonGroup
                           size="medium"
                           items={[
-                            { icon: <ChevronLeft className="h-4 w-4" />, value: "prev", "aria-label": "Previous" },
-                            { icon: <ChevronRight className="h-4 w-4" />, value: "next", "aria-label": "Next" },
+                            { icon: <ChevronLeft className="h-4 w-4" />, value: 'prev', 'aria-label': 'Previous' },
+                            { icon: <ChevronRight className="h-4 w-4" />, value: 'next', 'aria-label': 'Next' },
                           ]}
                           value="next"
-                          onValueChange={(val) => console.log(val)}
+                          onValueChange={(val) => {
+                            console.log(val);
+                          }}
                         />
                         <ButtonGroup
                           size="medium"
                           items={[
-                            { icon: <AlignLeft className="h-4 w-4" />, value: "left", "aria-label": "Align left" },
+                            { icon: <AlignLeft className="h-4 w-4" />, value: 'left', 'aria-label': 'Align left' },
                             {
                               icon: <AlignCenter className="h-4 w-4" />,
-                              value: "center",
-                              "aria-label": "Align center",
+                              value: 'center',
+                              'aria-label': 'Align center',
                             },
-                            { icon: <AlignRight className="h-4 w-4" />, value: "right", "aria-label": "Align right" },
+                            { icon: <AlignRight className="h-4 w-4" />, value: 'right', 'aria-label': 'Align right' },
                           ]}
                           value="center"
-                          onValueChange={(val) => console.log(val)}
+                          onValueChange={(val) => {
+                            console.log(val);
+                          }}
                         />
                         <ButtonGroup
                           size="medium"
                           selectionMode="multiple"
                           items={[
-                            { icon: <Bold className="h-4 w-4" />, value: "bold", "aria-label": "Bold" },
-                            { icon: <Italic className="h-4 w-4" />, value: "italic", "aria-label": "Italic" },
+                            { icon: <Bold className="h-4 w-4" />, value: 'bold', 'aria-label': 'Bold' },
+                            { icon: <Italic className="h-4 w-4" />, value: 'italic', 'aria-label': 'Italic' },
                             {
                               icon: <Underline className="h-4 w-4" />,
-                              value: "underline",
-                              "aria-label": "Underline",
+                              value: 'underline',
+                              'aria-label': 'Underline',
                             },
                           ]}
-                          value={["bold", "italic"]}
-                          onValueChange={(val) => console.log(val)}
+                          value={['bold', 'italic']}
+                          onValueChange={(val) => {
+                            console.log(val);
+                          }}
                         />
                       </div>
                     </div>
@@ -496,20 +520,45 @@ function App() {
                       <DropdownMenu>
                         <PopUpButton value={selectedFont} />
                         <MenuContent>
-                          <MenuItem checked={selectedFont === "SF Pro"} onClick={() => setSelectedFont("SF Pro")}>
+                          <MenuItem
+                            checked={selectedFont === 'SF Pro'}
+                            onClick={() => {
+                              setSelectedFont('SF Pro');
+                            }}
+                          >
                             SF Pro
                           </MenuItem>
-                          <MenuItem checked={selectedFont === "SF Mono"} onClick={() => setSelectedFont("SF Mono")}>
+                          <MenuItem
+                            checked={selectedFont === 'SF Mono'}
+                            onClick={() => {
+                              setSelectedFont('SF Mono');
+                            }}
+                          >
                             SF Mono
                           </MenuItem>
-                          <MenuItem checked={selectedFont === "New York"} onClick={() => setSelectedFont("New York")}>
+                          <MenuItem
+                            checked={selectedFont === 'New York'}
+                            onClick={() => {
+                              setSelectedFont('New York');
+                            }}
+                          >
                             New York
                           </MenuItem>
                           <MenuSeparator />
-                          <MenuItem checked={selectedFont === "Helvetica"} onClick={() => setSelectedFont("Helvetica")}>
+                          <MenuItem
+                            checked={selectedFont === 'Helvetica'}
+                            onClick={() => {
+                              setSelectedFont('Helvetica');
+                            }}
+                          >
                             Helvetica
                           </MenuItem>
-                          <MenuItem checked={selectedFont === "Arial"} onClick={() => setSelectedFont("Arial")}>
+                          <MenuItem
+                            checked={selectedFont === 'Arial'}
+                            onClick={() => {
+                              setSelectedFont('Arial');
+                            }}
+                          >
                             Arial
                           </MenuItem>
                         </MenuContent>
@@ -610,7 +659,7 @@ function App() {
                     Lists and Tables
                   </Typography>
                   <div className="overflow-hidden rounded-2xl bg-white dark:bg-black/20">
-                    <div className="flex h-8 items-center border-black/5 border-b bg-gray-50/50 px-4 dark:bg-white/5">
+                    <div className="flex h-8 items-center border-b border-black/5 bg-gray-50/50 px-4 dark:bg-white/5">
                       <Typography variant="caption-1" className="flex-1 font-bold text-gray-500">
                         Name
                       </Typography>
@@ -623,9 +672,11 @@ function App() {
                     </div>
                     <div className="flex flex-col">
                       <ListItem
-                        variant={selectedListItem === "buttons" ? "selected" : "zebra"}
+                        variant={selectedListItem === 'buttons' ? 'selected' : 'zebra'}
                         className="flex cursor-pointer"
-                        onClick={() => setSelectedListItem("buttons")}
+                        onClick={() => {
+                          setSelectedListItem('buttons');
+                        }}
                       >
                         <span className="flex flex-1 items-center gap-2 truncate">
                           <Folder className="h-4 w-4 shrink-0 text-blue-500" /> Buttons
@@ -636,9 +687,11 @@ function App() {
                         <span className="hidden w-1/4 truncate opacity-70 sm:block">High</span>
                       </ListItem>
                       <ListItem
-                        variant={selectedListItem === "overlays" ? "selected" : "default"}
+                        variant={selectedListItem === 'overlays' ? 'selected' : 'default'}
                         className="flex cursor-pointer"
-                        onClick={() => setSelectedListItem("overlays")}
+                        onClick={() => {
+                          setSelectedListItem('overlays');
+                        }}
                       >
                         <span className="flex flex-1 items-center gap-2 truncate">
                           <Folder className="h-4 w-4 shrink-0 text-blue-500" /> Overlays
@@ -647,9 +700,11 @@ function App() {
                         <span className="hidden w-1/4 truncate sm:block">High</span>
                       </ListItem>
                       <ListItem
-                        variant={selectedListItem === "tooltip" ? "selected" : "zebra"}
+                        variant={selectedListItem === 'tooltip' ? 'selected' : 'zebra'}
                         className="flex cursor-pointer"
-                        onClick={() => setSelectedListItem("tooltip")}
+                        onClick={() => {
+                          setSelectedListItem('tooltip');
+                        }}
                       >
                         <span className="ml-4 flex flex-1 items-center gap-2 truncate">
                           <FileText className="h-4 w-4 shrink-0 text-gray-400" /> Tooltip.tsx
@@ -660,9 +715,11 @@ function App() {
                         <span className="hidden w-1/4 truncate opacity-70 sm:block">Medium</span>
                       </ListItem>
                       <ListItem
-                        variant={selectedListItem === "alert" ? "selected" : "default"}
+                        variant={selectedListItem === 'alert' ? 'selected' : 'default'}
                         className="flex cursor-pointer"
-                        onClick={() => setSelectedListItem("alert")}
+                        onClick={() => {
+                          setSelectedListItem('alert');
+                        }}
                       >
                         <span className="ml-4 flex flex-1 items-center gap-2 truncate">
                           <FileText className="h-4 w-4 shrink-0 text-gray-400" /> Alert.tsx
@@ -680,7 +737,12 @@ function App() {
                     Alerts
                   </Typography>
                   <div className="rounded-xl bg-black/1.5 p-6 dark:bg-white/1.5">
-                    <Button variant="destructive" onClick={() => setShowAlert(true)}>
+                    <Button
+                      variant="destructive"
+                      onClick={() => {
+                        setShowAlert(true);
+                      }}
+                    >
                       <Trash2 className="mr-2 h-4 w-4" />
                       Show Alert Dialog
                     </Button>
@@ -801,13 +863,17 @@ function App() {
           title="Empty Trash?"
           description="All items in the trash will be permanently deleted. This action cannot be undone."
           primaryAction={{
-            label: "Empty Trash",
-            variant: "destructive",
-            onClick: () => setShowAlert(false),
+            label: 'Empty Trash',
+            variant: 'destructive',
+            onClick: () => {
+              setShowAlert(false);
+            },
           }}
           cancelAction={{
-            label: "Cancel",
-            onClick: () => setShowAlert(false),
+            label: 'Cancel',
+            onClick: () => {
+              setShowAlert(false);
+            },
           }}
         />
       </div>

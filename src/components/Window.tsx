@@ -1,6 +1,6 @@
-import * as React from "react";
-import { LiquidGlassPanel } from "@/components/LiquidGlass";
-import { cn } from "@/utils";
+import * as React from 'react';
+import { LiquidGlassPanel } from '@/components/LiquidGlass';
+import { cn } from '@/utils';
 
 interface WindowProps extends React.HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode;
@@ -17,26 +17,26 @@ interface WindowProps extends React.HTMLAttributes<HTMLDivElement> {
 function CssSidebar({ children }: { children: React.ReactNode }): React.ReactElement {
   return (
     <div className="relative flex h-full w-56 flex-col overflow-hidden rounded-[18px]">
-      <div className="absolute inset-0 bg-gray-bg-100/67 backdrop-blur-[25px] dark:bg-dark-bg-300/67" />
-      <div className="absolute inset-0 bg-dark-bg-500 opacity-100 mix-blend-color-dodge dark:opacity-50" />
+      <div className="bg-gray-bg-100/67 dark:bg-dark-bg-300/67 absolute inset-0 backdrop-blur-[25px]" />
+      <div className="bg-dark-bg-500 absolute inset-0 opacity-100 mix-blend-color-dodge dark:opacity-50" />
       <div className="relative z-10 flex h-full flex-col">{children}</div>
     </div>
   );
 }
 
 /** Window Control Button */
-type ControlColor = "close" | "minimize" | "zoom";
+type ControlColor = 'close' | 'minimize' | 'zoom';
 
 const CONTROL_COLORS: Record<ControlColor, string> = {
-  close: "bg-control-close",
-  minimize: "bg-control-minimize",
-  zoom: "bg-control-zoom",
+  close: 'bg-control-close',
+  minimize: 'bg-control-minimize',
+  zoom: 'bg-control-zoom',
 };
 
 const CONTROL_ICONS: Record<ControlColor, string> = {
-  close: "\u00D7",
-  minimize: "\u2212",
-  zoom: "+",
+  close: '\u00D7',
+  minimize: '\u2212',
+  zoom: '+',
 };
 
 function WindowControlButton({ color, onClick }: { color: ControlColor; onClick?: () => void }): React.ReactElement {
@@ -44,15 +44,15 @@ function WindowControlButton({ color, onClick }: { color: ControlColor; onClick?
     <button
       type="button"
       className={cn(
-        "group flex size-3.5 items-center justify-center rounded-full",
-        "cursor-default transition-all duration-100",
-        "shadow-control-inset",
-        "focus:outline-none focus-visible:ring-1 focus-visible:ring-white/50",
+        'group flex size-3.5 items-center justify-center rounded-full',
+        'cursor-default transition-all duration-100',
+        'shadow-control-inset',
+        'focus:outline-none focus-visible:ring-1 focus-visible:ring-white/50',
         CONTROL_COLORS[color],
       )}
       onClick={onClick}
     >
-      <span className="hidden font-bold text-[9px] text-black/40 leading-none group-hover:inline">
+      <span className="hidden text-[9px] leading-none font-bold text-black/40 group-hover:inline">
         {CONTROL_ICONS[color]}
       </span>
     </button>
@@ -87,10 +87,10 @@ export const Window = React.forwardRef<HTMLDivElement, WindowProps>(function Win
     <div
       ref={ref}
       className={cn(
-        "relative flex overflow-hidden",
-        "rounded-[26px]",
-        "shadow-[0_16px_48px_rgba(0,0,0,0.35),0_0_0_1px_rgba(0,0,0,0.23)]",
-        "bg-white dark:bg-dark-bg-600",
+        'relative flex overflow-hidden',
+        'rounded-[26px]',
+        'shadow-[0_16px_48px_rgba(0,0,0,0.35),0_0_0_1px_rgba(0,0,0,0.23)]',
+        'dark:bg-dark-bg-600 bg-white',
         className,
       )}
       style={{ width, height }}
@@ -109,25 +109,25 @@ export const Window = React.forwardRef<HTMLDivElement, WindowProps>(function Win
       )}
 
       {/* Main Content */}
-      <div className="flex min-h-0 min-w-0 flex-1 flex-col bg-white dark:bg-dark-bg-600">
+      <div className="dark:bg-dark-bg-600 flex min-h-0 min-w-0 flex-1 flex-col bg-white">
         {/* Toolbar */}
         <div
           className={cn(
-            "flex h-13 shrink-0 items-center border-black/5 border-b px-4 dark:border-white/5",
-            "pl-20",
-            sidebar && "md:pl-4",
+            'flex h-13 shrink-0 items-center border-b border-black/5 px-4 dark:border-white/5',
+            'pl-20',
+            sidebar && 'md:pl-4',
           )}
           data-tauri-drag-region
         >
           {/* Mobile controls (always shown if sidebar is hidden on mobile) */}
-          <div className={cn("absolute left-4 flex gap-2", sidebar && "md:hidden")}>
+          <div className={cn('absolute left-4 flex gap-2', sidebar && 'md:hidden')}>
             <WindowControls />
           </div>
 
           <div className="flex flex-1 items-center justify-between gap-4">
             {title && !toolbar && (
               <div className="flex flex-1 justify-center">
-                <span className="font-medium font-sans text-[13px] text-black/80 tracking-wide dark:text-white/80">
+                <span className="font-sans text-[13px] font-medium tracking-wide text-black/80 dark:text-white/80">
                   {title}
                 </span>
               </div>

@@ -1,42 +1,42 @@
-import { cva, type VariantProps } from "class-variance-authority";
-import * as React from "react";
-import { cn } from "@/utils";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+import { cn } from '@/utils';
 
-const buttonGroupVariants = cva("relative inline-flex items-center overflow-hidden rounded-full", {
+const buttonGroupVariants = cva('relative inline-flex items-center overflow-hidden rounded-full', {
   variants: {
     size: {
-      xl: "h-9 gap-[3px] p-1",
-      medium: "h-6 gap-[3px] p-0.5",
+      xl: 'h-9 gap-[3px] p-1',
+      medium: 'h-6 gap-[3px] p-0.5',
     },
   },
   defaultVariants: {
-    size: "xl",
+    size: 'xl',
   },
 });
 
 const buttonItemVariants = cva(
-  "inline-flex select-none items-center justify-center rounded-full transition-all focus:outline-none [&_svg]:shrink-0",
+  'inline-flex select-none items-center justify-center rounded-full transition-all focus:outline-none [&_svg]:shrink-0',
   {
     variants: {
       size: {
-        xl: "h-7 min-w-[30px] px-[5px] [&_svg]:h-4 [&_svg]:w-4",
-        medium: "h-5 min-w-9 px-1.5 [&_svg]:h-3.5 [&_svg]:w-3.5",
+        xl: 'h-7 min-w-[30px] px-[5px] [&_svg]:h-4 [&_svg]:w-4',
+        medium: 'h-5 min-w-9 px-1.5 [&_svg]:h-3.5 [&_svg]:w-3.5',
       },
       selected: {
-        true: "bg-gray-bg-400 dark:bg-white/20",
-        false: "bg-transparent hover:bg-black/5 dark:hover:bg-white/10",
+        true: 'bg-gray-bg-400 dark:bg-white/20',
+        false: 'bg-transparent hover:bg-black/5 dark:hover:bg-white/10',
       },
     },
     defaultVariants: {
-      size: "xl",
+      size: 'xl',
       selected: false,
     },
   },
 );
 
-function Separator({ size }: { size: "xl" | "medium" }): React.ReactElement {
+function Separator({ size }: { size: 'xl' | 'medium' }): React.ReactElement {
   return (
-    <div className={cn("flex w-0.75 items-center justify-center", size === "xl" ? "h-5" : "h-4")}>
+    <div className={cn('flex w-0.75 items-center justify-center', size === 'xl' ? 'h-5' : 'h-4')}>
       <div className="h-full w-px bg-black/10 dark:bg-white/15" />
     </div>
   );
@@ -45,7 +45,7 @@ function Separator({ size }: { size: "xl" | "medium" }): React.ReactElement {
 export interface ButtonGroupItem {
   icon: React.ReactNode;
   value: string;
-  "aria-label"?: string;
+  'aria-label'?: string;
   disabled?: boolean;
   className?: string;
 }
@@ -53,14 +53,14 @@ export interface ButtonGroupItem {
 export interface ButtonGroupProps extends VariantProps<typeof buttonGroupVariants> {
   items: ButtonGroupItem[];
   value?: string | string[];
-  selectionMode?: "single" | "multiple" | "none";
+  selectionMode?: 'single' | 'multiple' | 'none';
   onValueChange?: (value: string | string[]) => void;
   className?: string;
   showSeparators?: boolean;
 }
 
 export const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(function ButtonGroup(
-  { items, value, selectionMode = "single", onValueChange, size = "xl", className, showSeparators = true },
+  { items, value, selectionMode = 'single', onValueChange, size = 'xl', className, showSeparators = true },
   ref,
 ) {
   const selectedValues = React.useMemo(() => {
@@ -69,9 +69,9 @@ export const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(fu
   }, [value]);
 
   const handleItemClick = (itemValue: string) => {
-    if (selectionMode === "none") return;
+    if (selectionMode === 'none') return;
 
-    if (selectionMode === "single") {
+    if (selectionMode === 'single') {
       onValueChange?.(itemValue);
     } else {
       // Multiple selection
@@ -88,7 +88,7 @@ export const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(fu
   return (
     <div
       ref={ref}
-      className={cn(buttonGroupVariants({ size }), "shadow-glass", className)}
+      className={cn(buttonGroupVariants({ size }), 'shadow-glass', className)}
       role="toolbar"
       aria-label="Button group"
     >
@@ -105,17 +105,19 @@ export const ButtonGroup = React.forwardRef<HTMLDivElement, ButtonGroupProps>(fu
                 type="button"
                 className={cn(
                   buttonItemVariants({ size, selected: isSelected }),
-                  item.disabled && "pointer-events-none opacity-50",
+                  item.disabled && 'pointer-events-none opacity-50',
                   item.className,
                 )}
-                onClick={() => handleItemClick(item.value)}
-                aria-label={item["aria-label"]}
-                aria-pressed={selectionMode !== "none" ? isSelected : undefined}
+                onClick={() => {
+                  handleItemClick(item.value);
+                }}
+                aria-label={item['aria-label']}
+                aria-pressed={selectionMode !== 'none' ? isSelected : undefined}
                 disabled={item.disabled}
               >
                 {item.icon}
               </button>
-              {showSeparator && !nextSelected && <Separator size={size ?? "xl"} />}
+              {showSeparator && !nextSelected && <Separator size={size ?? 'xl'} />}
             </React.Fragment>
           );
         })}

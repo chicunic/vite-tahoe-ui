@@ -1,10 +1,10 @@
-import * as DialogPrimitive from "@radix-ui/react-dialog";
-import * as TooltipPrimitive from "@radix-ui/react-tooltip";
-import { cva, type VariantProps } from "class-variance-authority";
-import * as React from "react";
-import { Typography } from "@/components/Typography";
-import { DROPDOWN_ANIMATION } from "@/styles";
-import { cn } from "@/utils";
+import * as DialogPrimitive from '@radix-ui/react-dialog';
+import * as TooltipPrimitive from '@radix-ui/react-tooltip';
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+import { Typography } from '@/components/Typography';
+import { DROPDOWN_ANIMATION } from '@/styles';
+import { cn } from '@/utils';
 
 /** Dialog / Alert Components */
 export const Dialog = DialogPrimitive.Root;
@@ -18,7 +18,7 @@ export const DialogOverlay = React.forwardRef<
   return (
     <DialogPrimitive.Overlay
       ref={ref}
-      className={cn("fixed inset-0 z-50 bg-black/20 backdrop-blur-[2px]", DROPDOWN_ANIMATION, className)}
+      className={cn('fixed inset-0 z-50 bg-black/20 backdrop-blur-[2px]', DROPDOWN_ANIMATION, className)}
       {...props}
     />
   );
@@ -34,9 +34,9 @@ export const DialogContent = React.forwardRef<
       <DialogPrimitive.Content
         ref={ref}
         className={cn(
-          "fixed top-[45%] left-[50%] z-50 w-full max-w-65 translate-x-[-50%] translate-y-[-50%] transition-all duration-200",
-          "rounded-[26px] bg-gray-bg-200 dark:bg-dark-bg-300",
-          "shadow-[0_17px_45px_rgba(0,0,0,0.5),0_0_1px_rgba(0,0,0,0.2)]",
+          'fixed top-[45%] left-[50%] z-50 w-full max-w-65 translate-x-[-50%] translate-y-[-50%] transition-all duration-200',
+          'bg-gray-bg-200 dark:bg-dark-bg-300 rounded-[26px]',
+          'shadow-[0_17px_45px_rgba(0,0,0,0.5),0_0_1px_rgba(0,0,0,0.2)]',
           DROPDOWN_ANIMATION,
           className,
         )}
@@ -49,23 +49,22 @@ export const DialogContent = React.forwardRef<
 });
 
 /** AlertButton - Pill-shaped buttons for Alert dialogs */
-const alertButtonVariants = cva("h-7 w-full rounded-full px-4 font-medium text-[13px] transition-colors duration-75", {
+const alertButtonVariants = cva('h-7 w-full rounded-full px-4 font-medium text-[13px] transition-colors duration-75', {
   variants: {
     variant: {
-      primary: "bg-apple-blue-light text-white hover:bg-apple-blue-light/90",
+      primary: 'bg-apple-blue-light text-white hover:bg-apple-blue-light/90',
       secondary:
-        "bg-gray-bg-400 text-black/85 hover:bg-gray-border dark:bg-dark-bg-100 dark:text-white/85 dark:hover:bg-dark-bg-400",
-      destructive: "bg-apple-red/23 text-apple-red hover:bg-apple-red/30",
+        'bg-gray-bg-400 text-black/85 hover:bg-gray-border dark:bg-dark-bg-100 dark:text-white/85 dark:hover:bg-dark-bg-400',
+      destructive: 'bg-apple-red/23 text-apple-red hover:bg-apple-red/30',
     },
   },
   defaultVariants: {
-    variant: "primary",
+    variant: 'primary',
   },
 });
 
 export interface AlertButtonProps
-  extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof alertButtonVariants> {}
+  extends React.ButtonHTMLAttributes<HTMLButtonElement>, VariantProps<typeof alertButtonVariants> {}
 
 export const AlertButton = React.forwardRef<HTMLButtonElement, AlertButtonProps>(function AlertButton(
   { className, variant, children, ...props },
@@ -81,7 +80,7 @@ export const AlertButton = React.forwardRef<HTMLButtonElement, AlertButtonProps>
 interface AlertAction {
   label: string;
   onClick: () => void;
-  variant?: "primary" | "destructive";
+  variant?: 'primary' | 'destructive';
 }
 
 export interface AlertProps {
@@ -130,7 +129,7 @@ export function Alert({
             {primaryAction.label}
           </AlertButton>
           {secondaryAction && (
-            <AlertButton variant={secondaryAction.variant ?? "destructive"} onClick={secondaryAction.onClick}>
+            <AlertButton variant={secondaryAction.variant ?? 'destructive'} onClick={secondaryAction.onClick}>
               {secondaryAction.label}
             </AlertButton>
           )}
@@ -159,7 +158,7 @@ export const TooltipContent = React.forwardRef<
       ref={ref}
       sideOffset={sideOffset}
       className={cn(
-        "fade-in-0 zoom-in-95 z-50 animate-in overflow-hidden rounded-sm bg-black/80 px-2 py-1 text-[11px] text-white shadow-md dark:bg-white/90 dark:text-black",
+        'fade-in-0 zoom-in-95 animate-in z-50 overflow-hidden rounded-sm bg-black/80 px-2 py-1 text-[11px] text-white shadow-md dark:bg-white/90 dark:text-black',
         className,
       )}
       {...props}

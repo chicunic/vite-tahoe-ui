@@ -1,16 +1,16 @@
-import { cva, type VariantProps } from "class-variance-authority";
-import * as React from "react";
-import { cn } from "@/utils";
+import { cva, type VariantProps } from 'class-variance-authority';
+import * as React from 'react';
+import { cn } from '@/utils';
 
-const scrollbarVariants = cva("relative flex shrink-0", {
+const scrollbarVariants = cva('relative flex shrink-0', {
   variants: {
     orientation: {
-      vertical: "h-full w-3 flex-col",
-      horizontal: "h-3 w-full flex-row",
+      vertical: 'h-full w-3 flex-col',
+      horizontal: 'h-3 w-full flex-row',
     },
   },
   defaultVariants: {
-    orientation: "vertical",
+    orientation: 'vertical',
   },
 });
 
@@ -24,12 +24,12 @@ export interface ScrollbarProps extends VariantProps<typeof scrollbarVariants> {
 const KEYBOARD_STEP = 0.1;
 
 export const Scrollbar = React.forwardRef<HTMLDivElement, ScrollbarProps>(function Scrollbar(
-  { orientation = "vertical", position = 0, visibleRatio = 0.5, onPositionChange, className },
+  { orientation = 'vertical', position = 0, visibleRatio = 0.5, onPositionChange, className },
   ref,
 ) {
   const trackRef = React.useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = React.useState(false);
-  const isVertical = orientation === "vertical";
+  const isVertical = orientation === 'vertical';
 
   // Calculate thumb size based on visible ratio (minimum 20%)
   const thumbSize = Math.max(visibleRatio, 0.2) * 100;
@@ -72,11 +72,11 @@ export const Scrollbar = React.forwardRef<HTMLDivElement, ScrollbarProps>(functi
   React.useEffect(() => {
     if (!isDragging) return;
 
-    window.addEventListener("mousemove", handleMouseMove);
-    window.addEventListener("mouseup", handleMouseUp);
+    window.addEventListener('mousemove', handleMouseMove);
+    window.addEventListener('mouseup', handleMouseUp);
     return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseup", handleMouseUp);
+      window.removeEventListener('mousemove', handleMouseMove);
+      window.removeEventListener('mouseup', handleMouseUp);
     };
   }, [isDragging, handleMouseMove, handleMouseUp]);
 
@@ -87,8 +87,8 @@ export const Scrollbar = React.forwardRef<HTMLDivElement, ScrollbarProps>(functi
   const handleKeyDown = (e: React.KeyboardEvent): void => {
     if (!onPositionChange) return;
 
-    const decreaseKey = isVertical ? "ArrowUp" : "ArrowLeft";
-    const increaseKey = isVertical ? "ArrowDown" : "ArrowRight";
+    const decreaseKey = isVertical ? 'ArrowUp' : 'ArrowLeft';
+    const increaseKey = isVertical ? 'ArrowDown' : 'ArrowRight';
 
     switch (e.key) {
       case decreaseKey:
@@ -97,21 +97,21 @@ export const Scrollbar = React.forwardRef<HTMLDivElement, ScrollbarProps>(functi
       case increaseKey:
         onPositionChange(Math.min(1, position + KEYBOARD_STEP));
         break;
-      case "Home":
+      case 'Home':
         onPositionChange(0);
         break;
-      case "End":
+      case 'End':
         onPositionChange(1);
         break;
     }
   };
 
   const thumbStyle = isVertical
-    ? { width: 6, height: `${thumbSize}%`, top: `${thumbPosition}%`, left: "50%", marginLeft: -3 }
-    : { height: 6, width: `${thumbSize}%`, left: `${thumbPosition}%`, top: "50%", marginTop: -3 };
+    ? { width: 6, height: `${String(thumbSize)}%`, top: `${String(thumbPosition)}%`, left: '50%', marginLeft: -3 }
+    : { height: 6, width: `${String(thumbSize)}%`, left: `${String(thumbPosition)}%`, top: '50%', marginTop: -3 };
 
   return (
-    <div ref={ref} className={cn(scrollbarVariants({ orientation }), "hidden select-none md:flex", className)}>
+    <div ref={ref} className={cn(scrollbarVariants({ orientation }), 'hidden select-none md:flex', className)}>
       {/* biome-ignore lint/a11y/noStaticElementInteractions: Scrollbar track is mouse-only interaction */}
       <div ref={trackRef} className="relative h-full w-full" role="presentation" onClick={handleTrackClick}>
         <div
@@ -121,12 +121,12 @@ export const Scrollbar = React.forwardRef<HTMLDivElement, ScrollbarProps>(functi
           aria-valuemin={0}
           aria-valuemax={100}
           aria-orientation={orientation ?? undefined}
-          aria-label={`${isVertical ? "Vertical" : "Horizontal"} scrollbar`}
+          aria-label={`${isVertical ? 'Vertical' : 'Horizontal'} scrollbar`}
           className={cn(
-            "scrollbar-thumb absolute rounded-full transition-colors duration-75",
-            isDragging && "scrollbar-thumb-active",
-            "cursor-pointer",
-            "focus-visible-ring",
+            'scrollbar-thumb absolute rounded-full transition-colors duration-75',
+            isDragging && 'scrollbar-thumb-active',
+            'cursor-pointer',
+            'focus-visible-ring',
           )}
           style={thumbStyle}
           onMouseDown={handleMouseDown}
